@@ -17,11 +17,13 @@ import { Link } from 'react-router-dom';
 import { RotateCcw, TrendingUp, Target } from 'lucide-react';
 import { BotonRuta } from '@/components/ui/Boton';
 import { DesgloseAreas } from '@/components/resultados/DesgloseAreas';
+import { MarcadorPuntaje } from '@/components/resultados/MarcadorPuntaje';
+import { VistaConjunto } from '@/components/resultados/VistaConjunto';
 import { CursoRecomendado } from '@/components/resultados/CursoRecomendado';
 import { Meta } from '@/lib/Meta';
 import { AREAS } from '@/diagnostico/areas';
 import { BANCO } from '@/diagnostico/banco';
-import { calcularResultado } from '@/diagnostico/puntuacion';
+import { areasSolidas, calcularResultado, ordenarPorPrioridad } from '@/diagnostico/puntuacion';
 import { interpretar } from '@/diagnostico/interpretacion';
 import { borrarGuardado, leerGuardado } from '@/diagnostico/useExamen';
 import { RAMAS } from '@/datos/examenOficial';
@@ -34,7 +36,13 @@ export function Resultados() {
     if (!guardado) return null;
     const resultado = calcularResultado(BANCO, AREAS, guardado.respuestas, guardado.rama);
     const rama = RAMAS.find((r) => r.id === guardado.rama);
-    return { resultado, interpretacion: interpretar(resultado), rama };
+    return {
+      resultado,
+      interpretacion: interpretar(resultado),
+      rama,
+      porAreaOrdenada: ordenarPorPrioridad(resultado.porArea),
+      solidas: areasSolidas(resultado.porArea),
+    };
   }, [guardado]);
 
   if (!datos) {
@@ -62,7 +70,7 @@ export function Resultados() {
     );
   }
 
-  const { resultado, interpretacion, rama } = datos;
+  const { resultado, interpretacion, rama, porAreaOrdenada, solidas } = datos;
   const nombreRama = rama?.nombreCorto ?? 'tu rama';
 
   return (
@@ -82,31 +90,60 @@ export function Resultados() {
             {interpretacion.titular}
           </h1>
 
-          <div className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-6 border-y border-regla py-7">
-            <div>
-              <p className="eyebrow text-tinta-suave">Aciertos</p>
-              <p className="mt-1 font-display text-6xl leading-none font-semibold tracking-tight">
-                {resultado.porcentaje}
-                <span className="text-3xl text-tinta-suave">%</span>
-              </p>
-              <p className="mt-2 text-sm text-tinta-media">
+          {/*
+            Cabecera en dos columnas: el anillo ancla el resultado a la izquierda y
+            la derecha lleva nivel, interpretación y una equivalencia concreta, en
+            lugar de dejar la mitad vacía. Patrón de docs/mobbin-resultados-a.md.
+          */}
+          <div className="mt-8 flex flex-col items-center gap-8 border-y border-regla py-8 sm:flex-row sm:items-center sm:gap-10">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <MarcadorPuntaje porcentaje={resultado.porcentaje} />
+              <p className="text-sm text-tinta-media">
                 {resultado.correctas} de {resultado.total} preguntas
               </p>
             </div>
-            <div className="border-l border-regla pl-6">
-              <p className="eyebrow text-tinta-suave">Tramo</p>
-              <p className="mt-1.5 font-sans text-xl font-semibold">{interpretacion.tramo}</p>
+
+            <div className="flex-1">
+              <span
+                className={[
+                  'inline-flex items-center gap-1.5 border px-3 py-1 text-sm font-semibold',
+                  interpretacion.tramoNivel === 'solido'
+                    ? 'border-solido/30 bg-solido-tenue text-solido'
+                    : interpretacion.tramoNivel === 'atencion'
+                      ? 'border-lapiz/30 bg-lapiz-tenue text-lapiz'
+                      : 'border-atencion/30 bg-atencion-tenue text-atencion',
+                ].join(' ')}
+              >
+                Nivel {interpretacion.tramo}
+              </span>
+              <p className="mt-4 text-[1.05rem] leading-relaxed text-tinta-media">
+                {interpretacion.cuerpo}
+              </p>
+              <p className="mt-4 border-t border-regla pt-4 text-sm text-tinta-media">
+                <span className="font-semibold text-tinta">
+                  {solidas} de {resultado.porArea.length} áreas
+                </span>{' '}
+                {solidas === 1 ? 'quedó' : 'quedaron'} en nivel sólido.
+              </p>
             </div>
           </div>
-
-          <p className="mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-tinta-media">
-            {interpretacion.cuerpo}
-          </p>
         </header>
 
-        {/* 3: desglose comparable. */}
+        {/* 3: vista de conjunto, después el detalle. Ambas por prioridad. */}
         <div className="mt-14">
-          <DesgloseAreas porArea={resultado.porArea} />
+          <h2 id="titulo-desglose" className="text-2xl sm:text-3xl">
+            Área por área
+          </h2>
+          <p className="mt-2 max-w-2xl text-tinta-media">
+            Ordenadas por dónde conviene empezar: primero lo que requiere refuerzo. El porcentaje es
+            de las preguntas de esa área en este diagnóstico, no del examen real.
+          </p>
+          <div className="mt-7">
+            <VistaConjunto areas={porAreaOrdenada} />
+          </div>
+          <div className="mt-8">
+            <DesgloseAreas porArea={porAreaOrdenada} />
+          </div>
         </div>
 
         {/* 4: fortalezas y mejoras, nombradas. */}
