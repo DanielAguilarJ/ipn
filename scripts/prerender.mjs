@@ -8,7 +8,7 @@
  * aplicación normal.
  */
 
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -49,6 +49,38 @@ function limpiarPlantilla(html) {
     .replace(/<link\s+rel="canonical"[^>]*>\s*/, '');
 }
 
+/**
+ * Precarga de las tipografías del primer pintado.
+ *
+ * Sin esto el navegador las descubre tarde: primero el HTML, luego el CSS, luego
+ * el `@import` de dentro del CSS y solo entonces la fuente. Como el elemento más
+ * grande de estas páginas es texto, esa cadena retrasa directamente el LCP.
+ *
+ * Solo se precargan los subconjuntos `latin` de las dos familias, que son los que
+ * se usan en español; precargar `latin-ext` o `vietnamese` gastaría ancho de banda
+ * en algo que casi nadie verá. Los nombres llevan hash del build, así que se leen
+ * del disco en lugar de escribirse a mano.
+ */
+function preloadTipografias() {
+  const assets = join(dist, 'assets');
+  const archivos = readdirSync(assets).filter(
+    (f) => f.endsWith('.woff2') && f.includes('-latin-') && !f.includes('latin-ext'),
+  );
+
+  if (archivos.length === 0) {
+    throw new Error('No se encontró ninguna tipografía latin en dist/assets; revisa el build.');
+  }
+
+  return archivos
+    .map(
+      (f) =>
+        `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin="anonymous">`,
+    )
+    .join('\n    ');
+}
+
+const preloads = preloadTipografias();
+
 const generadas = [];
 
 for (const ruta of RUTAS_PRERENDERIZADAS) {
@@ -56,7 +88,7 @@ for (const ruta of RUTAS_PRERENDERIZADAS) {
   const { cabecera, cuerpo } = separarCabecera(renderizado);
 
   const html = limpiarPlantilla(plantilla)
-    .replace('</head>', `  ${cabecera}\n  </head>`)
+    .replace('</head>', `  ${preloads}\n    ${cabecera}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${cuerpo}</div>`);
 
   const destino = ruta === '/' ? join(dist, 'index.html') : join(dist, ruta, 'index.html');

@@ -26,7 +26,7 @@ export function NoEncontrada() {
           Quizá el enlace cambió. Estas son las páginas que sí existen y probablemente buscabas.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <BotonRuta to="/diagnostico" medida="lg">
+          <BotonRuta to="/diagnostico-ipn" medida="lg">
             Hacer el diagnóstico
           </BotonRuta>
           <BotonRuta to="/" jerarquia="secundaria" medida="lg">

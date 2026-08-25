@@ -23,9 +23,9 @@ import { NoEncontrada } from './paginas/NoEncontrada';
 /** Qué componente corresponde a cada ruta prerenderizada. */
 const PAGINAS: Readonly<Record<string, () => React.ReactElement>> = {
   '/': Inicio,
-  '/diagnostico': Diagnostico,
+  '/diagnostico-ipn': Diagnostico,
   '/examen-ipn': ExamenIpn,
-  '/curso': Curso,
+  '/curso-ipn': Curso,
   '/fuentes': Fuentes,
   '/aviso-legal': AvisoLegal,
 };

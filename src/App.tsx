@@ -22,9 +22,9 @@ import { NoEncontrada } from './paginas/NoEncontrada';
 /** Rutas del sitio. Alimenta también el sitemap generado en la compilación. */
 export const RUTAS = [
   '/',
-  '/diagnostico',
+  '/diagnostico-ipn',
   '/examen-ipn',
-  '/curso',
+  '/curso-ipn',
   '/fuentes',
   '/aviso-legal',
 ] as const;
@@ -60,10 +60,10 @@ export function App() {
       <main id="contenido" tabIndex={-1} className="min-h-[60vh] outline-none">
         <Routes>
           <Route path="/" element={<Inicio />} />
-          <Route path="/diagnostico" element={<Diagnostico />} />
+          <Route path="/diagnostico-ipn" element={<Diagnostico />} />
           <Route path="/resultados" element={<Resultados />} />
           <Route path="/examen-ipn" element={<ExamenIpn />} />
-          <Route path="/curso" element={<Curso />} />
+          <Route path="/curso-ipn" element={<Curso />} />
           <Route path="/fuentes" element={<Fuentes />} />
           <Route path="/aviso-legal" element={<AvisoLegal />} />
           <Route path="*" element={<NoEncontrada />} />

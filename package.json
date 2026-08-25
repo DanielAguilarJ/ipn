@@ -9,6 +9,7 @@
     "build": "tsc --noEmit && vite build && npm run build:servidor && node scripts/prerender.mjs",
     "build:servidor": "vite build --ssr src/entrada-servidor.tsx --outDir dist/servidor",
     "preview": "vite preview",
+    "seo": "node scripts/auditar-seo.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },

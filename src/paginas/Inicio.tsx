@@ -8,6 +8,7 @@
  * ni conteos de alumnos que nadie pueda comprobar.
  */
 
+import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, ClipboardList, MessageCircle, Route } from 'lucide-react';
 import { BotonExterno, BotonRuta } from '@/components/ui/Boton';
 import { RotuloSeccion } from '@/components/ui/RotuloSeccion';
@@ -19,9 +20,10 @@ import { preguntasDeRama } from '@/diagnostico/puntuacion';
 import { HECHOS_EXAMEN, NO_PUBLICADO, RAMAS, FUENTES } from '@/datos/examenOficial';
 import { BRAND, LEGAL, SITE, whatsappUrl } from '@/config/site';
 
-const TITULO = 'Curso de admisión al IPN 2027 | Diagnóstico gratis por área';
+const TITULO = 'Curso de admisión al IPN 2026 y diagnóstico gratis por área';
+/** 154 caracteres: entra completa en el resultado de Google. */
 const DESCRIPCION =
-  'Mide gratis tu nivel en las áreas del temario oficial del IPN y recibe un plan de estudio. Curso de preparación de WorldBrain México. Sitio independiente, no oficial del IPN.';
+  'Mide gratis tu nivel en las 8 áreas del temario del IPN, sin registro, y sabe por dónde empezar a estudiar. Curso de preparación de WorldBrain México.';
 
 const MENSAJE_HERO =
   'Hola, vengo de admisionipn.com y quiero informes del curso de preparación para el examen del IPN.';
@@ -101,7 +103,7 @@ export function Inicio() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <BotonRuta to="/diagnostico" medida="lg">
+              <BotonRuta to="/diagnostico-ipn" medida="lg">
                 Hacer el diagnóstico gratis
                 <ArrowRight aria-hidden="true" className="size-5" />
               </BotonRuta>
@@ -279,7 +281,17 @@ export function Inicio() {
           </ul>
           <p className="mt-8 text-[0.97rem] leading-relaxed text-tinta">
             Lo que sí podemos hacer es cubrir el temario completo de tu rama, medir tu avance con
-            datos y prepararte para resolver 140 preguntas en tres horas sin quedarte sin tiempo.
+            datos y prepararte para resolver 140 preguntas en tres horas sin quedarte sin tiempo. Eso
+            es lo que hacen{' '}
+            <Link to="/curso-ipn" className="font-medium text-azul-texto hover:underline">
+              los tres programas de preparación
+            </Link>
+            , y el diagnóstico existe para saber cuál te toca. Todos los datos que afirmamos sobre el
+            examen están en{' '}
+            <Link to="/fuentes" className="font-medium text-azul-texto hover:underline">
+              la lista de fuentes con su fecha de consulta
+            </Link>
+            .
           </p>
         </div>
       </section>
@@ -300,7 +312,7 @@ export function Inicio() {
             la recomendación que te corresponde y un WhatsApp directo.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <BotonRuta to="/diagnostico" medida="lg">
+            <BotonRuta to="/diagnostico-ipn" medida="lg">
               Hacer el diagnóstico gratis
               <ArrowRight aria-hidden="true" className="size-5" />
             </BotonRuta>

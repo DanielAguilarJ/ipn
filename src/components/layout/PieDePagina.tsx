@@ -20,8 +20,8 @@ const FUENTES: ReadonlyArray<{ readonly href: string; readonly texto: string }> 
 ];
 
 const INTERNOS: ReadonlyArray<{ readonly a: string; readonly texto: string }> = [
-  { a: '/diagnostico', texto: 'Diagnóstico gratuito' },
-  { a: '/curso', texto: 'El curso' },
+  { a: '/diagnostico-ipn', texto: 'Diagnóstico gratuito' },
+  { a: '/curso-ipn', texto: 'El curso' },
   { a: '/examen-ipn', texto: 'Cómo es el examen' },
   { a: '/fuentes', texto: 'Fuentes y fechas de consulta' },
   { a: '/aviso-legal', texto: 'Aviso legal y privacidad' },

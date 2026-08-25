@@ -12,11 +12,12 @@ import { BotonExterno, BotonRuta } from '@/components/ui/Boton';
 import { Meta } from '@/lib/Meta';
 import { AREAS } from '@/diagnostico/areas';
 import { UMBRALES_CURSO } from '@/diagnostico/puntuacion';
-import { BRAND, CURSO, LEGAL, whatsappUrl } from '@/config/site';
+import { BRAND, CURSO, LEGAL, LINKS, SITE, whatsappUrl } from '@/config/site';
 
-const TITULO = 'Curso de preparación para el examen de admisión al IPN | Rumbo IPN';
+const TITULO = 'Curso de admisión al IPN: 4, 6 u 8 meses según tu nivel';
+/** 149 caracteres. Nombra los programas reales, no los que inventé antes. */
 const DESCRIPCION =
-  'Tres programas de preparación para el examen del IPN según tu nivel de partida: reconstruir bases, recorrido completo del temario o afinación con simulacros. De WorldBrain México.';
+  'Tres programas de WorldBrain México para el examen del IPN: Intensivo 4 meses, Estratégico 6 y Blindado 8. Haz el diagnóstico y sabrás cuál te toca.';
 
 const MENSAJE = 'Hola, quiero informes del curso de preparación para el examen de admisión al IPN.';
 
@@ -77,10 +78,63 @@ const PROGRAMAS: readonly Programa[] = [
   },
 ];
 
+/**
+ * Datos estructurados del curso.
+ *
+ * Un `Course` por cada programa real, con su duración, dentro de un
+ * `ItemList`: así Google entiende que son tres opciones del mismo curso y no
+ * tres cursos sin relación. No se declara `offers` con precio porque no hay
+ * precio publicado, y declarar uno falso es justo lo que Google penaliza.
+ */
+function esquemaCurso(): object {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ItemList',
+        name: 'Programas de preparación para el examen de admisión al IPN',
+        itemListElement: PROGRAMAS.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'Course',
+            name: `${p.nombre} · ${p.meses} meses`,
+            description: p.idea,
+            inLanguage: 'es-MX',
+            provider: {
+              '@type': 'EducationalOrganization',
+              name: BRAND.org,
+              url: LINKS.worldbrain.value,
+            },
+            teaches: AREAS.map((a) => a.nombre),
+            hasCourseInstance: {
+              '@type': 'CourseInstance',
+              courseMode: CURSO.modalidades.value,
+              courseWorkload: `P${p.meses}M`,
+            },
+          },
+        })),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE.origin.value}/` },
+          { '@type': 'ListItem', position: 2, name: 'El curso', item: `${SITE.origin.value}/curso` },
+        ],
+      },
+    ],
+  };
+}
+
 export function Curso() {
   return (
     <>
-      <Meta titulo={TITULO} descripcion={DESCRIPCION} ruta="/curso" />
+      <Meta
+        titulo={TITULO}
+        descripcion={DESCRIPCION}
+        ruta="/curso-ipn"
+        datosEstructurados={esquemaCurso()}
+      />
 
       <div className="mx-auto max-w-5xl px-4 py-14">
         <p className="eyebrow text-azul-texto">{BRAND.org}</p>
@@ -157,7 +211,7 @@ export function Curso() {
               <MessageCircle aria-hidden="true" className="size-5" />
               Pedir informes por WhatsApp
             </BotonExterno>
-            <BotonRuta to="/diagnostico" jerarquia="secundaria" medida="lg">
+            <BotonRuta to="/diagnostico-ipn" jerarquia="secundaria" medida="lg">
               Antes hacer el diagnóstico
               <ArrowRight aria-hidden="true" className="size-5" />
             </BotonRuta>

@@ -26,9 +26,9 @@ interface Enlace {
 }
 
 const ENLACES: readonly Enlace[] = [
-  { a: '/diagnostico', texto: 'Diagnóstico', enMovil: true },
+  { a: '/diagnostico-ipn', texto: 'Diagnóstico', enMovil: true },
   { a: '/examen-ipn', texto: 'El examen', enMovil: true },
-  { a: '/curso', texto: 'El curso', enMovil: false },
+  { a: '/curso-ipn', texto: 'El curso', enMovil: false },
 ];
 
 const MENSAJE_ENCABEZADO =

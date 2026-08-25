@@ -10,6 +10,7 @@
  */
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Boton } from '@/components/ui/Boton';
 import { RAMAS } from '@/datos/examenOficial';
@@ -33,7 +34,11 @@ export function ElegirRama({ totalPorRama, onEmpezar }: Props) {
       <p className="mt-4 text-[1.05rem] leading-relaxed text-tinta-media">
         En el examen del IPN eliges una rama y las dos carreras que solicites deben pertenecer a
         ella. Tu diagnóstico cambia según esa elección, porque el temario oficial de Física es
-        distinto en cada rama.
+        distinto en cada rama. Si dudas de cuál te toca, mira{' '}
+        <Link to="/examen-ipn" className="font-medium text-azul-texto hover:underline">
+          qué carreras entran en cada rama y qué materias evalúa
+        </Link>
+        .
       </p>
 
       <fieldset className="mt-9">

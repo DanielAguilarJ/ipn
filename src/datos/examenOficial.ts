@@ -53,7 +53,62 @@ export const FUENTES = {
     url: 'https://www.admision.ipn.mx/nme/convocatoria/index.html',
     consultada: '2026-08-25',
   },
+  noEscolarizada: {
+    id: 'noEscolarizada',
+    titulo: 'Convocatoria Nivel Superior, Modalidad No Escolarizada, agosto 2026',
+    url: 'https://www.admision.ipn.mx/nsd/convocatoria/index.html',
+    consultada: '2026-08-25',
+  },
 } as const satisfies Record<string, Fuente>;
+
+/**
+ * La modalidad no escolarizada del nivel superior.
+ *
+ * Tiene convocatoria propia, distinta de la escolarizada. Se documenta porque
+ * «examen de admisión IPN modalidad no escolarizada» es una búsqueda real y la
+ * diferencia más importante no es el formato del examen, que es igual, sino que
+ * solo ofrece carreras de una rama.
+ */
+export const NO_ESCOLARIZADA = {
+  /** Igual que en la escolarizada: mismo examen. */
+  preguntas: 140,
+  horas: 3,
+  /** La diferencia decisiva: solo una rama. */
+  ramaUnica: 'sociales-administrativas' as const,
+  /** Y se elige una sola carrera, no dos. */
+  opcionesDeCarrera: 1,
+  carreras: [
+    'Turismo',
+    'Archivonomía',
+    'Biblioteconomía',
+    'Administración y Desarrollo Empresarial',
+    'Comercio Internacional',
+    'Relaciones Comerciales',
+    'Negocios Internacionales',
+    'Contador Público',
+    'Contaduría y Finanzas Públicas',
+    'Ingeniería en Negocios Energéticos Sustentables',
+  ],
+  /** Obligatorio para quien queda asignado. */
+  cursoPropedeutico: 'del 15 de julio al 10 de agosto de 2026, en línea',
+  fuenteId: 'noEscolarizada' as const,
+} as const;
+
+/**
+ * Lo que la gente llama «segunda vuelta».
+ *
+ * La convocatoria no usa ese término. Lo que existe son varios periodos de
+ * ingreso, cada uno con su propia convocatoria, y quien no queda asignado en uno
+ * puede participar en el siguiente. Se documenta así, con las palabras de la
+ * fuente, en lugar de adoptar un nombre que el IPN no emplea.
+ */
+export const PERIODOS_DE_INGRESO = {
+  cuantos: 4,
+  lista: ['agosto de 2026', 'octubre de 2026', 'febrero de 2027', 'abril de 2027'],
+  reglaNoAsignados:
+    'Quien no resulta asignado en una convocatoria puede participar en la del periodo siguiente. Quien sí resulta asignado, no.',
+  fuenteId: 'noEscolarizada' as const,
+} as const;
 export interface Hecho {
   readonly dato: string;
   readonly detalle: string;

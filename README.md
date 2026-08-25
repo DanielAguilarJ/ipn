@@ -92,6 +92,23 @@ pregunta tenga la respuesta correcta fuera de sus opciones, que el puntaje se
 calcule igual siempre, que no se pueda cerrar el examen dejando preguntas sin
 responder, y que los textos del resultado nunca prometan ni descarten tu admisión.
 
+## Cómo revisar que el SEO sigue bien
+
+```bash
+npm run build
+npm run seo
+```
+
+Son comprobaciones distintas de las anteriores: miran el sitio ya compilado y
+avisan si un título o una descripción se pasan de largo y Google los va a cortar,
+si una página se queda sin H1 o tiene dos, si los datos estructurados dejaron de
+ser válidos, o si el sitemap y el `robots.txt` se contradicen.
+
+La más importante es la última: comprueba que cada página siga entregando texto
+real **sin ejecutar JavaScript**. Si eso se rompiera, el sitio seguiría viéndose
+perfecto en tu navegador mientras Google recibe una página vacía, y es el tipo de
+fallo que nadie nota hasta que el tráfico no llega.
+
 ---
 
 ## Qué hay dentro, en una página
@@ -140,4 +157,10 @@ afirmarse en la interfaz.
 - `docs/mobbin-b-landing.md` — patrones de landing educativa
 - `docs/investigacion-competidores.md` — cómo venden los competidores, objeciones
   reales de compra y términos de búsqueda
+- `docs/seo-intencion-busqueda.md` — qué escribe la gente de verdad en Google,
+  según su API de sugerencias, y qué consultas NO conviene perseguir
+- `docs/seo-competencia-serp.md` — quién ocupa los primeros resultados y cuál es
+  el techo realista en cada búsqueda
+- `docs/seo-rendimiento.md` — medición de Core Web Vitals, con lo que demuestra y
+  lo que no
 - `docs/especificacion-preguntas.md` — reglas para redactar preguntas

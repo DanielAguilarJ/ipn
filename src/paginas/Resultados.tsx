@@ -53,7 +53,7 @@ export function Resultados() {
             desglose por área.
           </p>
           <div className="mt-8 flex justify-center">
-            <BotonRuta to="/diagnostico" medida="lg">
+            <BotonRuta to="/diagnostico-ipn" medida="lg">
               Hacer el diagnóstico
             </BotonRuta>
           </div>
@@ -174,7 +174,7 @@ export function Resultados() {
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Link
-            to="/diagnostico"
+            to="/diagnostico-ipn"
             onClick={borrarGuardado}
             className="inline-flex items-center gap-2 text-sm font-medium text-tinta-media hover:text-azul-texto"
           >
