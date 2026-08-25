@@ -1,0 +1,23 @@
+# Dependencias: se reinstalan con `npm install`, nunca se suben.
+node_modules/
+
+# Resultado de la compilación: se regenera con `npm run build`.
+dist/
+
+# Registros y cachés
+*.log
+npm-debug.log*
+.vite/
+
+# Configuración local del asistente
+.kiro/
+
+# Basura del sistema
+.DS_Store
+Thumbs.db
+
+# Variables de entorno, por si alguna vez hicieran falta.
+# Nunca subir credenciales al repositorio.
+.env
+.env.local
+.env.*.local

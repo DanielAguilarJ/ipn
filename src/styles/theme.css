@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+
+/* Tipografías autoalojadas: sin peticiones a terceros, sin salto de fuente. */
+@import '@fontsource-variable/fraunces/wght.css';
+@import '@fontsource-variable/archivo/wght.css';
+
+/*
+  Sistema visual «Cuaderno de examen».
+  Concepto: papel cálido, tinta densa, azul de WorldBrain para estructura y
+  acción, rojo de bolígrafo reservado para corrección y énfasis.
+  Prohibido en este proyecto: fondos oscuros con degradados neón,
+  glassmorphism, bordes con brillo, emojis como iconos, texto con degradado.
+*/
+@theme {
+  /* Superficies */
+  --color-papel: #f7f5f0;
+  --color-papel-alto: #fffefb;
+  --color-papel-hondo: #eeebe3;
+
+  /* Tinta */
+  --color-tinta: #121418;
+  --color-tinta-media: #3c4250;
+  /*
+    Este gris se oscureció de #6c7280 a #5f6575 tras una auditoría de contraste:
+    el anterior daba 4.42 sobre el papel y 4.05 sobre el papel hondo, por debajo
+    del 4.5 que exige WCAG AA para texto normal, y se usa en muchos pies de foto,
+    fuentes y leyendas. Ahora da 5.35 y 4.89.
+  */
+  --color-tinta-suave: #5f6575;
+
+  /* Reglas y bordes */
+  --color-regla: #e2ded4;
+  --color-regla-fuerte: #cbc5b6;
+
+  /* Azul WorldBrain: estructura y acción */
+  --color-azul: #0d5ef4;
+  /*
+    El mismo azul, oscurecido solo para TEXTO. El de marca da 4.49 sobre el papel
+    hondo, justo por debajo del 4.5 de WCAG AA, y ahí viven el pie de página y
+    varias secciones. Se separa en dos tokens en lugar de oscurecer la marca:
+    #0d5ef4 sigue siendo el relleno de botones e iconos, donde el blanco encima ya
+    da 5.35. Este da 5.20 sobre papel hondo y 5.69 sobre papel.
+  */
+  --color-azul-texto: #0b55e0;
+  --color-azul-hover: #0b4bc4;
+  --color-azul-hondo: #09215c;
+  --color-azul-tenue: #e9f0fe;
+
+  /* Numerales grandes de sección: decorativos, pero legibles a 3:1. */
+  --color-numeral: #8e856f;
+
+  /*
+    Rojo de bolígrafo: corrección y énfasis, siempre escaso.
+    Oscurecido de #d3372a a #b62c20 porque como TEXTO sobre su propio fondo tenue
+    daba 4.14, por debajo del 4.5 de WCAG AA. Ahora da 5.35, y el blanco sobre él
+    también mejora en los rellenos.
+  */
+  --color-lapiz: #b62c20;
+  --color-lapiz-tenue: #fbeae7;
+
+  /* Estados de resultado */
+  --color-solido: #0e6f52;
+  --color-solido-tenue: #e4f2ec;
+  --color-atencion: #a86205;
+  --color-atencion-tenue: #fbf0dd;
+
+  /* Tipografía */
+  --font-display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Archivo Variable', system-ui, -apple-system, sans-serif;
+
+  /* Escala tipográfica editorial: saltos amplios, no lineales */
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.1;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* Ritmo vertical */
+  --spacing-seccion: 5.5rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    /* Fraunces expone ejes ópticos y de «wonk»: los fijamos para dar carácter. */
+    --fraunces-eje: 'SOFT' 12, 'WONK' 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-variation-settings: var(--fraunces-eje);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco visible y consistente en todo el sitio: requisito de accesibilidad. */
+  :focus-visible {
+    outline: 3px solid var(--color-azul);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-azul);
+    color: #fff;
+  }
+}
+
+@utility eyebrow {
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Retícula de cuaderno: rayado sutil, se apaga si el usuario no lo quiere. */
+@utility papel-rayado {
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(2rem - 1px),
+    var(--color-regla) calc(2rem - 1px),
+    var(--color-regla) 2rem
+  );
+  background-size: 100% 2rem;
+}
+
+/* Bloque oscuro de la marca: azul profundo, nunca negro con neón. */
+@utility bloque-hondo {
+  background-color: var(--color-azul-hondo);
+  color: var(--color-papel);
+}
+
+/* Contenido solo para lectores de pantalla. */
+@utility solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}

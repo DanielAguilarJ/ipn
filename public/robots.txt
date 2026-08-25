@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# La pantalla de resultados es personal de cada visitante y no aporta nada
+# indexada: su contenido depende de respuestas guardadas en el navegador.
+Disallow: /resultados
+
+Sitemap: https://admisionipn.com/sitemap.xml
