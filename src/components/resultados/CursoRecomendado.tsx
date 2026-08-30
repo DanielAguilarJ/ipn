@@ -10,8 +10,8 @@
  * de entrada qué áreas hay que reforzar.
  */
 
-import { ArrowUpRight, MessageCircle } from 'lucide-react';
-import { BotonExterno } from '@/components/ui/Boton';
+import { ArrowRight, ArrowUpRight, MessageCircle } from 'lucide-react';
+import { BotonExterno, BotonRuta } from '@/components/ui/Boton';
 import { BRAND, CURSO, LINKS, WHATSAPP, whatsappUrl } from '@/config/site';
 import type { Resultado } from '@/diagnostico/tipos';
 
@@ -102,15 +102,31 @@ export function CursoRecomendado({ resultado, nombreRama }: Props) {
             Pedir informes por WhatsApp
           </BotonExterno>
 
-          <BotonExterno href={LINKS.cursoDetalle.value} jerarquia="sobre-oscuro" medida="lg">
-            Ver el curso en {BRAND.org}
-            <ArrowUpRight aria-hidden="true" className="size-5" />
-          </BotonExterno>
+          {/*
+            Antes este segundo botón sacaba del sitio directamente. Ahora lleva a la
+            comparativa propia de los tres programas, que es donde se explica por qué
+            te corresponde este y no otro; el enlace al sitio de WorldBrain queda
+            debajo, para quien ya decidió y quiere la página oficial del curso.
+          */}
+          <BotonRuta to="/curso-ipn" jerarquia="sobre-oscuro" medida="lg">
+            Comparar los tres programas
+            <ArrowRight aria-hidden="true" className="size-5" />
+          </BotonRuta>
         </div>
 
-        <p className="mt-5 text-sm text-white/65">
+        <p className="mt-5 text-sm leading-relaxed text-white/65">
           Escribes al {WHATSAPP.numeroVisible} con tu resultado ya incluido, así no tienes que
-          explicarlo de nuevo. Sin costo y sin compromiso de inscripción.
+          explicarlo de nuevo. Sin costo y sin compromiso de inscripción. También puedes ver{' '}
+          <a
+            href={LINKS.cursoDetalle.value}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-papel underline decoration-white/40 underline-offset-2 hover:decoration-white"
+          >
+            la página del curso en {BRAND.org}
+            <ArrowUpRight aria-hidden="true" className="ml-0.5 inline size-3.5" />
+          </a>
+          .
         </p>
       </div>
     </section>

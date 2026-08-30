@@ -8,45 +8,41 @@
  * ni conteos de alumnos que nadie pueda comprobar.
  */
 
+import { Link } from 'react-router-dom';
+import { EnlaceExterno } from '@/components/ui/EnlaceExterno';
 import { ArrowRight, BookOpen, ClipboardList, MessageCircle, Route } from 'lucide-react';
 import { BotonExterno, BotonRuta } from '@/components/ui/Boton';
 import { RotuloSeccion } from '@/components/ui/RotuloSeccion';
+import { grafo } from '@/lib/esquemas';
 import { Faq, esquemaFaq } from '@/components/inicio/Faq';
 import { Meta } from '@/lib/Meta';
 import { AREAS } from '@/diagnostico/areas';
-import { BANCO } from '@/diagnostico/banco';
-import { preguntasDeRama } from '@/diagnostico/puntuacion';
+import { PREGUNTAS_POR_PERSONA } from '@/diagnostico/conteo';
 import { HECHOS_EXAMEN, NO_PUBLICADO, RAMAS, FUENTES } from '@/datos/examenOficial';
 import { BRAND, LEGAL, SITE, whatsappUrl } from '@/config/site';
 
-const TITULO = 'Curso de admisión al IPN 2027 | Diagnóstico gratis por área';
+const TITULO = 'Curso de admisión al IPN 2026 y diagnóstico gratis por área';
+/** 154 caracteres: entra completa en el resultado de Google. */
 const DESCRIPCION =
-  'Mide gratis tu nivel en las áreas del temario oficial del IPN y recibe un plan de estudio. Curso de preparación de WorldBrain México. Sitio independiente, no oficial del IPN.';
+  'Mide gratis tu nivel en las 8 áreas del temario del IPN, sin registro, y sabe por dónde empezar a estudiar. Curso de preparación de WorldBrain México.';
 
 const MENSAJE_HERO =
   'Hola, vengo de admisionipn.com y quiero informes del curso de preparación para el examen del IPN.';
 
-/** Datos estructurados de la organización y del curso, sin cifras inventadas. */
-function esquemaSitio(): object {
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebSite',
-        '@id': `${SITE.origin.value}/#sitio`,
-        url: SITE.origin.value,
-        name: `${BRAND.program} · ${BRAND.org}`,
-        inLanguage: 'es-MX',
-        description: DESCRIPCION,
-      },
-      {
-        '@type': 'EducationalOrganization',
-        '@id': `${SITE.origin.value}/#organizacion`,
-        name: BRAND.org,
-        description: `${BRAND.tagline}. Organización independiente, no afiliada al Instituto Politécnico Nacional.`,
-        areaServed: { '@type': 'Country', name: 'México' },
-      },
-      {
+/**
+ * Nodos de la organización y del curso, sin cifras inventadas.
+ *
+ * Devuelve la LISTA de nodos y no un documento con su propio `@context`: quien la
+ * usa la mete en el grafo de la página. Antes devolvía el documento completo y el
+ * punto de uso lo envolvía otra vez, así que la portada servía un `@graph` dentro
+ * de otro `@graph`. Los nodos quedaban un nivel demasiado abajo y, para un lector
+ * de datos estructurados, ahí no hay ninguna entidad: la portada declaraba el sitio
+ * y la organización sin que se pudieran extraer.
+ */
+/** Nodo del curso. El sitio y la organización los aporta `grafo()` en todas las páginas. */
+export function nodosSitio(): readonly object[] {
+  return [
+    {
         '@type': 'Course',
         name: `${BRAND.program}: preparación para el examen de admisión al IPN`,
         description:
@@ -55,22 +51,19 @@ function esquemaSitio(): object {
         provider: { '@id': `${SITE.origin.value}/#organizacion` },
         teaches: AREAS.map((a) => a.nombre),
       },
-    ],
-  };
+  ];
 }
 
 /**
  * Cuántas preguntas ve cada persona en su diagnóstico.
  *
- * Se comprueban las tres ramas en lugar de leer una sola: la portada afirma un
- * número en público, y si una rama tuviera más preguntas que otra ese número
- * sería falso para alguien. Cuando no coinciden se dice el mínimo con un «desde»,
- * que es cierto en todos los casos.
+ * La cifra se publica en `conteo.ts` y `conteo.test.ts` la comprueba contra el
+ * banco vivo en las tres ramas. Antes se calculaba aquí importando el banco
+ * completo, lo que metía las 40 preguntas con sus explicaciones en el paquete
+ * inicial: quien solo leía la portada descargaba todo el examen sin abrirlo.
  */
 export function preguntasPorPersona(): { readonly cifra: number; readonly exacta: boolean } {
-  const porRama = RAMAS.map((r) => preguntasDeRama(BANCO, r.id).length);
-  const minimo = Math.min(...porRama);
-  return { cifra: minimo, exacta: porRama.every((n) => n === minimo) };
+  return PREGUNTAS_POR_PERSONA;
 }
 
 export function Inicio() {
@@ -82,7 +75,7 @@ export function Inicio() {
         titulo={TITULO}
         descripcion={DESCRIPCION}
         ruta="/"
-        datosEstructurados={{ '@context': 'https://schema.org', '@graph': [esquemaSitio(), esquemaFaq()] }}
+        datosEstructurados={grafo(...nodosSitio(), esquemaFaq())}
       />
 
       {/* Hero */}
@@ -101,7 +94,7 @@ export function Inicio() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <BotonRuta to="/diagnostico" medida="lg">
+              <BotonRuta to="/diagnostico-ipn" medida="lg">
                 Hacer el diagnóstico gratis
                 <ArrowRight aria-hidden="true" className="size-5" />
               </BotonRuta>
@@ -131,14 +124,12 @@ export function Inicio() {
             </dl>
             <p className="border-t border-regla px-6 py-3.5 text-xs text-tinta-suave">
               Fuente:{' '}
-              <a
+              <EnlaceExterno
                 href={FUENTES.convocatoria2027.url}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-azul-texto hover:underline"
               >
                 convocatoria vigente del IPN
-              </a>
+              </EnlaceExterno>
               , consultada el 25 de agosto de 2026.
             </p>
           </aside>
@@ -248,14 +239,12 @@ export function Inicio() {
           </ul>
           <p className="mt-6 text-xs text-tinta-suave">
             Temario público del IPN, consultado el 25 de agosto de 2026.{' '}
-            <a
+            <EnlaceExterno
               href={FUENTES.temario.url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-azul-texto hover:underline"
             >
               Ver la fuente
-            </a>
+            </EnlaceExterno>
             .
           </p>
         </div>
@@ -279,7 +268,17 @@ export function Inicio() {
           </ul>
           <p className="mt-8 text-[0.97rem] leading-relaxed text-tinta">
             Lo que sí podemos hacer es cubrir el temario completo de tu rama, medir tu avance con
-            datos y prepararte para resolver 140 preguntas en tres horas sin quedarte sin tiempo.
+            datos y prepararte para resolver 140 preguntas en tres horas sin quedarte sin tiempo. Eso
+            es lo que hacen{' '}
+            <Link to="/curso-ipn" className="font-medium text-azul-texto hover:underline">
+              los tres programas de preparación
+            </Link>
+            , y el diagnóstico existe para saber cuál te toca. Todos los datos que afirmamos sobre el
+            examen están en{' '}
+            <Link to="/fuentes" className="font-medium text-azul-texto hover:underline">
+              la lista de fuentes con su fecha de consulta
+            </Link>
+            .
           </p>
         </div>
       </section>
@@ -300,7 +299,7 @@ export function Inicio() {
             la recomendación que te corresponde y un WhatsApp directo.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <BotonRuta to="/diagnostico" medida="lg">
+            <BotonRuta to="/diagnostico-ipn" medida="lg">
               Hacer el diagnóstico gratis
               <ArrowRight aria-hidden="true" className="size-5" />
             </BotonRuta>

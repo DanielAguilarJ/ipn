@@ -72,25 +72,104 @@ npm run build
 ```
 
 Eso deja todo listo en la carpeta `dist`. Esa carpeta es la que se sube al
-servidor. El comando hace cuatro cosas: revisa que no haya errores, genera el
-sitio, escribe una versión de cada página que los buscadores puedan leer, y crea el
-`sitemap.xml`.
+servidor. El comando hace cinco cosas: revisa que no haya errores, genera el
+sitio, escribe una versión de cada página que los buscadores puedan leer, crea el
+`sitemap.xml` y genera un `404.html` de verdad.
 
-**Importante al publicar:** el servidor debe enviar `index.html` cuando alguien
-pida una dirección que no existe como archivo, o las rutas internas darán error 404
-al recargar. En Netlify o Vercel esto ya viene configurado. En un servidor propio,
-pide a quien lo administre una «regla de reescritura a index.html».
+**Importante al publicar:** cada página tiene ya su propio archivo, así que **no**
+pidas una «regla de reescritura a index.html». Esa regla haría que cualquier
+dirección inventada devolviera la portada con estado 200, y Google la registraría
+como una página duplicada más, gastando rastreo en direcciones que no existen. Lo
+correcto es que el servidor entregue `404.html` cuando la dirección no exista. En
+Netlify, Vercel y GitHub Pages eso ya ocurre solo con que el archivo esté ahí. En
+un servidor propio, pide a quien lo administre que use `404.html` como página de
+error.
+
+**La otra cosa que hay que decirle a quien publique: sin barra al final.** Cada
+página se declara a sí misma en `https://admisionipn.com/curso-ipn`, sin barra, y el
+`sitemap.xml` ofrece exactamente esa misma dirección. Si el servidor decide redirigir
+a `/curso-ipn/` con barra, la dirección que anunciamos deja de ser la que se sirve, y
+Google recibe dos versiones de cada página con la instrucción de quedarse con una que
+redirige a la otra. No rompe el sitio, pero desperdicia rastreo y retrasa la
+indexación justo al principio, que es cuando más importa. En Netlify se controla con
+`pretty_urls`; en Vercel con `trailingSlash: false`; en un servidor propio, pídelo
+explícitamente. Hay una comprobación que verifica que sitemap y canonical coinciden
+carácter por carácter, pero **el comportamiento del servidor no se puede comprobar
+desde aquí**: es la única pieza de esta lista que depende de dónde se publique.
 
 ## Cómo revisar que nada se rompió
 
+Un solo comando revisa todo:
+
 ```bash
-npm test
+npm run verificar
 ```
 
-Son 97 comprobaciones automáticas. Verifican, entre otras cosas, que ninguna
-pregunta tenga la respuesta correcta fuera de sus opciones, que el puntaje se
-calcule igual siempre, que no se pueda cerrar el examen dejando preguntas sin
-responder, y que los textos del resultado nunca prometan ni descarten tu admisión.
+Tarda alrededor de dos minutos y se detiene en la primera cosa que falle, diciéndote
+cuál es. Si termina sin quejarse, está bien. Por dentro son siete revisiones
+distintas, y conviene saber qué caza cada una porque miran cosas que no se ven:
+
+**Las comprobaciones del contenido y del cálculo.** El comando te dice cuántas son
+al terminar. Verifican que ninguna pregunta tenga la respuesta correcta fuera de sus
+opciones, que el puntaje se calcule igual siempre, que no se pueda cerrar el examen
+dejando preguntas sin responder, que los textos del resultado nunca prometan ni
+descarten tu admisión, que los tres programas que ofrece la página del curso sean los
+mismos que recomienda el diagnóstico, y que la cifra de preguntas que anuncia la
+portada siga siendo la real.
+
+**Que el sitio compile y se genere entero.** Las siete páginas, el `sitemap.xml` y el
+`404.html`.
+
+**Que el SEO siga en pie.** Avisa si un título o una descripción se pasan de largo y
+Google los va a cortar, si una página se queda sin H1 o tiene dos, si pierde sus
+datos estructurados o sus migas de pan, si deja de referenciar a WorldBrain México,
+si la imagen para compartir desaparece o cambia de tamaño, o si el `robots.txt` y las
+propias páginas se contradicen, o si un cambio de texto deja sin cubrir alguna de las
+búsquedas reales que el sitio ya cubría, o la baja de un encabezado al cuerpo. Lo más importante que revisa: que cada página siga
+entregando texto real **sin ejecutar JavaScript**. Si eso se rompiera, el sitio se
+vería perfecto en tu navegador mientras Google recibe una página vacía, y es el tipo
+de fallo que nadie nota hasta que el tráfico no llega.
+
+**Que los enlaces internos funcionen.** Ninguno roto, y ninguno con texto vago tipo
+«aquí» o «leer más», que no le dicen nada a Google ni a quien usa un lector de
+pantalla.
+
+**Que las tipografías cubran el texto.** Comprueba letra por letra que todo lo que
+se muestra cabe en el juego de caracteres que se descarga.
+
+**Que el sitio funcione en un teléfono.** Abre las siete páginas en un móvil emulado
+y avisa si algo se sale de la pantalla a lo ancho, si un botón o un enlace del menú
+queda demasiado pequeño para el dedo, si un texto no contrasta lo suficiente con su
+fondo, o si el navegador registra algún error. Ese último es el más traicionero: una
+página se ve perfecta aunque su JavaScript reviente, porque el texto ya venía escrito;
+lo que se rompe es el diagnóstico.
+
+**Que el diagnóstico se pueda hacer de verdad.** Recorre el examen en el navegador:
+elige una rama, comprueba que aparecen las preguntas, que **no** se puede avanzar sin
+responder —si eso se rompiera, alguien podría terminar con preguntas en blanco y su
+resultado sería falso—, que el progreso avanza al responder, y que la pantalla de
+resultados dice honestamente que no hay nada cuando no hay respuestas guardadas.
+
+Si prefieres correr una sola, cada una tiene su comando: `npm test`,
+`npm run build`, `npm run seo`, `npm run enlaces`, `npm run fuentes`,
+`npm run movil` y `npm run flujo`.
+
+Las dos últimas necesitan un navegador instalado (`playwright-cli`). Si no lo tienes,
+avisan y se saltan sin dar error, así que el comando único sigue sirviendo.
+
+## Cómo cambiar la imagen que se ve al compartir el enlace
+
+Cuando alguien pega la dirección del sitio en WhatsApp, aparece una imagen con el
+titular. Su texto está en `scripts/og.html`. Si lo cambias, hay que volver a
+generarla:
+
+```bash
+npm run og
+```
+
+La imagen queda guardada en el repositorio, así que este comando solo hace falta
+cuando de verdad cambies ese texto. Requiere tener instalado `playwright-cli`; si no
+lo tienes, el comando te lo dice y la imagen que ya existe sigue siendo válida.
 
 ---
 
@@ -134,10 +213,21 @@ afirmarse en la interfaz.
 
 ## Documentos de trabajo
 
+- `docs/estado-del-sitio.md` — qué está verificado, qué falta para publicar y qué se
+  decidió no hacer, con las cifras medidas
+
 - `docs/investigacion-ipn.md` — convocatoria, temario y calendario, con fuentes y
   limitaciones
 - `docs/mobbin-a-examen.md` — patrones de examen y de pantalla de resultados
 - `docs/mobbin-b-landing.md` — patrones de landing educativa
 - `docs/investigacion-competidores.md` — cómo venden los competidores, objeciones
   reales de compra y términos de búsqueda
+- `docs/seo-intencion-busqueda.md` — qué escribe la gente de verdad en Google,
+  según su API de sugerencias, y qué consultas NO conviene perseguir
+- `docs/seo-competencia-serp.md` — quién ocupa los primeros resultados y cuál es
+  el techo realista en cada búsqueda
+- `docs/seo-rendimiento.md` — medición de Core Web Vitals, con lo que demuestra y
+  lo que no
+- `docs/seo-formatos-vigentes.md` — qué resultados enriquecidos de Google siguen
+  existiendo y cuáles ya no, para no perseguir formatos retirados
 - `docs/especificacion-preguntas.md` — reglas para redactar preguntas

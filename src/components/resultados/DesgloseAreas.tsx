@@ -44,16 +44,8 @@ interface Props {
 
 export function DesgloseAreas({ porArea }: Props) {
   return (
-    <section aria-labelledby="titulo-desglose">
-      <h2 id="titulo-desglose" className="text-2xl sm:text-3xl">
-        Área por área
-      </h2>
-      <p className="mt-2 max-w-2xl text-tinta-media">
-        Todas las barras usan la misma escala, así que puedes compararlas directamente. El porcentaje
-        es de las preguntas de esa área en este diagnóstico, no del examen real.
-      </p>
-
-      <ul className="mt-7 flex flex-col gap-px border-y border-regla">
+    <section aria-label="Detalle por área">
+      <ul className="flex flex-col gap-px border-y border-regla">
         {porArea.map((area) => {
           const Icono = ICONO[area.nivel];
           const detalle = areaPorId(area.areaId);

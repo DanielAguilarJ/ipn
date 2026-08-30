@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   UMBRALES,
+  areasSolidas,
   calcularResultado,
   nivelDe,
+  ordenarPorPrioridad,
   preguntasDeRama,
   recomendarCurso,
 } from './puntuacion';
@@ -144,7 +146,7 @@ describe('calcularResultado', () => {
     ];
     const conBio = [...areas, area('bio', 'Biología')];
     const r = calcularResultado(soloIngenieria, conBio, { m1: 'a' }, 'ingenieria');
-    expect(r.porArea.map((a) => a.areaId)).toEqual(['mat']);
+    expect(r.porArea.map((a: ResultadoArea) => a.areaId)).toEqual(['mat']);
   });
 
   it('ordena fortalezas de mayor a menor y mejoras de menor a mayor', () => {
@@ -164,8 +166,8 @@ describe('calcularResultado', () => {
       { x1: 'a', x2: 'a', y1: 'a', y2: 'b', z1: 'b', z2: 'b' },
       'ingenieria',
     );
-    expect(r.fortalezas.map((a) => a.areaId)).toEqual(['a1']);
-    expect(r.mejoras.map((a) => a.areaId)).toEqual(['a3', 'a2']);
+    expect(r.fortalezas.map((a: ResultadoArea) => a.areaId)).toEqual(['a1']);
+    expect(r.mejoras.map((a: ResultadoArea) => a.areaId)).toEqual(['a3', 'a2']);
   });
 });
 
@@ -206,5 +208,54 @@ describe('recomendarCurso', () => {
       areaResultado('e', 30),
     ];
     expect(recomendarCurso(58, hueco).id).toBe('blindado');
+  });
+});
+
+describe('ordenarPorPrioridad', () => {
+  const r = (id: string, porcentaje: number): ResultadoArea => ({
+    areaId: id,
+    nombre: id,
+    correctas: porcentaje,
+    total: 100,
+    porcentaje,
+    nivel: nivelDe(porcentaje),
+  });
+
+  it('pone primero lo que requiere refuerzo y al final lo sólido', () => {
+    const areas = [r('solida', 90), r('atencion', 20), r('media', 60)];
+    const orden = ordenarPorPrioridad(areas).map((a: ResultadoArea) => a.areaId);
+    expect(orden).toEqual(['atencion', 'media', 'solida']);
+  });
+
+  it('dentro del mismo nivel, ordena de menor a mayor porcentaje', () => {
+    const areas = [r('a', 30), r('b', 10), r('c', 44)];
+    // Los tres son nivel atención (<50): el más bajo encabeza.
+    expect(ordenarPorPrioridad(areas).map((a: ResultadoArea) => a.porcentaje)).toEqual([10, 30, 44]);
+  });
+
+  it('no muta el arreglo de entrada', () => {
+    const areas = [r('a', 90), r('b', 20)];
+    const copia = [...areas];
+    ordenarPorPrioridad(areas);
+    expect(areas).toEqual(copia);
+  });
+});
+
+describe('areasSolidas', () => {
+  const r = (porcentaje: number): ResultadoArea => ({
+    areaId: 'x',
+    nombre: 'x',
+    correctas: porcentaje,
+    total: 100,
+    porcentaje,
+    nivel: nivelDe(porcentaje),
+  });
+
+  it('cuenta solo las áreas en nivel sólido', () => {
+    expect(areasSolidas([r(90), r(80), r(40), r(60)])).toBe(2);
+  });
+
+  it('devuelve cero cuando ninguna es sólida', () => {
+    expect(areasSolidas([r(10), r(40)])).toBe(0);
   });
 });

@@ -7,6 +7,7 @@
  */
 
 import { Info } from 'lucide-react';
+import { EnlaceExterno } from '@/components/ui/EnlaceExterno';
 import { LEGAL, LINKS } from '@/config/site';
 
 /** Franja superior compacta, visible en toda la navegación. */
@@ -17,14 +18,12 @@ export function FranjaIndependencia() {
         <Info aria-hidden="true" className="mt-0.5 size-3.5 shrink-0 sm:mt-0" />
         <span>
           {LEGAL.independenciaCorta} Consulta la convocatoria en{' '}
-          <a
+          <EnlaceExterno
             href={LINKS.ipnOficial.value}
-            target="_blank"
-            rel="noopener noreferrer"
             className="font-semibold underline decoration-white/40 underline-offset-2 hover:decoration-white"
           >
             ipn.mx
-          </a>
+          </EnlaceExterno>
           .
         </span>
       </p>

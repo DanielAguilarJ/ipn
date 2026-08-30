@@ -1,8 +1,18 @@
 User-agent: *
 Allow: /
 
-# La pantalla de resultados es personal de cada visitante y no aporta nada
-# indexada: su contenido depende de respuestas guardadas en el navegador.
-Disallow: /resultados
+# No se bloquea ninguna ruta, y eso es deliberado.
+#
+# La pantalla de resultados no debe indexarse: su contenido depende de respuestas
+# guardadas en el navegador de cada visitante. Antes se excluía aquí con un
+# «Disallow», pero esa instrucción se anula a sí misma cuando la página además
+# declara «noindex»: si el rastreador no puede entrar, tampoco puede leer la
+# etiqueta que le pide no indexarla, y Google puede acabar registrando la
+# dirección sin contenido porque nunca averiguó que debía descartarla.
+#
+# La forma correcta es la contraria: dejar entrar y que la propia página lo diga.
+# `/resultados` se prerenderiza con «noindex, follow», así que el rastreador lee la
+# instrucción, la obedece y sigue los enlaces. El sitemap la excluye leyendo esa
+# misma etiqueta, y la auditoría comprueba que las dos cosas no se contradigan.
 
 Sitemap: https://admisionipn.com/sitemap.xml

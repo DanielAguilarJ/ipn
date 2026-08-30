@@ -2,9 +2,9 @@
  * Preguntas frecuentes.
  *
  * Cumple dos funciones a la vez: resuelve las dudas que frenan una inscripción y
- * alimenta los datos estructurados FAQPage. El texto visible y el del schema son
- * el mismo, siempre: publicar en schema algo que no está en pantalla es
- * exactamente lo que Google penaliza.
+ * alimenta los datos estructurados FAQPage. El texto visible y el del schema sale
+ * siempre de la misma fuente; así el marcado representa fielmente el contenido que
+ * la persona puede consultar en la página.
  */
 
 import { PERIODO_CONVOCATORIA } from '@/datos/examenOficial';
@@ -42,13 +42,33 @@ export const PREGUNTAS_FRECUENTES: readonly Pregunta[] = [
       'La convocatoria vigente indica examen en línea con navegador supervisado, en computadora de escritorio o laptop, con cámara, micrófono e internet. No se puede presentar desde teléfono ni tableta, así que conviene resolver ese detalle con tiempo.',
   },
   {
+    pregunta: '¿Hay segunda vuelta en el examen del IPN?',
+    respuesta:
+      'La convocatoria no usa ese nombre. Lo que existe son cuatro periodos de ingreso —agosto y octubre de 2026, febrero y abril de 2027—, cada uno con su convocatoria, sus fechas y su examen. Quien no queda asignado en uno puede participar en el siguiente; quien sí queda asignado, no. Así que no es un segundo intento del mismo examen, sino un proceso nuevo más adelante: lo importante es no perderte las fechas del periodo que te corresponde.',
+  },
+  {
+    pregunta: '¿Cómo es el examen del IPN en modalidad no escolarizada?',
+    respuesta:
+      'El formato es el mismo: 140 preguntas y tres horas. La diferencia que sí cambia tu preparación es la oferta: en línea solo hay carreras de Ciencias Sociales y Administrativas, no ingenierías ni médico biológicas. Además eliges una sola carrera en lugar de dos, y si te asignan hay un curso propedéutico obligatorio para aprender a usar la plataforma. Si vas por esta vía, estudia el temario de Sociales y Administrativas.',
+  },
+  {
+    pregunta: '¿Cuándo es el examen del IPN 2026?',
+    respuesta:
+      'La convocatoria vigente no publica una fecha general: la fecha y la hora de tu examen, y también las del simulador previo, llegan de forma individual en tu Ficha de Examen. Es distinto de otros procesos donde hay un día único para todos, así que no busques una fecha en foros: la tuya está en tu propio documento. Lo que sí está publicado es que los resultados se anuncian el sábado 24 de octubre de 2026.',
+  },
+  {
+    pregunta: '¿Dónde está la guía de estudio del IPN en PDF?',
+    respuesta:
+      'La publica el IPN, no nosotros: el temario de estudio para el ingreso está en la sección de trámites y servicios de su Dirección de Educación Superior, y en esta página tienes el enlace directo a ese documento. Aquí encontrarás la misma lista de temas organizada por área y rama para consultarla sin descargar nada, pero el PDF oficial es la fuente y es la que manda.',
+  },
+  {
     pregunta: '¿Cuándo es el registro para el IPN?',
     respuesta: `Para el ${PERIODO_CONVOCATORIA}, el prerregistro se abrió del 15 de julio al 30 de agosto de 2026, con ventanas por letra inicial del primer apellido, y los resultados se anuncian el 24 de octubre de 2026. Las fechas cambian cada convocatoria: confirma siempre en ${LINKS.ipnOficial.value}.`,
   },
   {
     pregunta: '¿Qué pasa si se me acaba el tiempo en el examen del IPN?',
     respuesta:
-      'Las preguntas que no alcances a responder cuentan como error, así que administrar el reloj es parte del examen y no un detalle. Son 140 preguntas en tres horas: poco más de un minuto por pregunta, sin tiempo para atorarse en una. Por eso el diagnóstico también te dice si tu problema es de contenido o de ritmo, y el programa de Afinación se dedica precisamente a resolver bajo presión de tiempo.',
+      'Las preguntas que no alcances a responder cuentan como error, así que administrar el reloj es parte del examen y no un detalle. Son 140 preguntas en tres horas: poco más de un minuto por pregunta, sin tiempo para atorarse en una. Por eso el diagnóstico también te dice si tu problema es de contenido o de ritmo, y el programa Intensivo se dedica precisamente a resolver con precisión y bajo presión de tiempo.',
   },
   {
     pregunta: '¿Qué necesito para presentar el examen en línea y qué pasa si algo falla?',

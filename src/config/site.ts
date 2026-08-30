@@ -40,8 +40,8 @@ export const LINKS = {
   cursoDetalle: confirmado('https://ultravelozmente.com/admision-universitaria'),
   /** Fuentes oficiales del IPN, para que el usuario verifique por su cuenta. */
   ipnOficial: confirmado('https://www.ipn.mx'),
-  ipnAdmision: confirmado('https://www.ipn.mx/admision-ipn/'),
-  ipnDae: confirmado('https://www.dae.ipn.mx'),
+  ipnAdmision: confirmado('https://www.ipn.mx/admision.html'),
+  ipnDae: confirmado('https://www.ipn.mx/dae/'),
   comipems: confirmado('https://www.comipems.org.mx'),
 } as const;
 

@@ -7,6 +7,7 @@
  */
 
 import { Meta } from '@/lib/Meta';
+import { grafo, nodoMigas, nodoPagina } from '@/lib/esquemas';
 import { BloqueIndependencia } from '@/components/layout/AvisoIndependencia';
 import { BRAND, WHATSAPP } from '@/config/site';
 
@@ -17,6 +18,15 @@ export function AvisoLegal() {
         titulo="Aviso legal y privacidad | Admisión IPN"
         descripcion="Aviso de independencia respecto al IPN, tratamiento de datos y condiciones de uso del diagnóstico."
         ruta="/aviso-legal"
+        datosEstructurados={grafo(
+          nodoPagina({
+            nombre: 'Aviso legal y privacidad',
+            descripcion:
+              'Independencia respecto al Instituto Politécnico Nacional, tratamiento de datos y condiciones de uso del diagnóstico.',
+            ruta: '/aviso-legal',
+          }),
+          nodoMigas('Aviso legal y privacidad', '/aviso-legal'),
+        )}
       />
 
       <div className="mx-auto max-w-3xl px-4 py-14">

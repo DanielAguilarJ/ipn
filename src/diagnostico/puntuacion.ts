@@ -187,3 +187,33 @@ export function calcularResultado(
     recomendacion: recomendarCurso(porcentaje, porArea),
   };
 }
+
+/** Orden de los niveles por prioridad de acción: lo urgente primero. */
+const PRIORIDAD_NIVEL: Readonly<Record<Nivel, number>> = {
+  atencion: 0,
+  medio: 1,
+  solido: 2,
+};
+
+/**
+ * Ordena las áreas por prioridad de estudio: primero las que requieren refuerzo,
+ * después las que están en desarrollo, al final las sólidas; dentro de cada
+ * nivel, de menor a mayor porcentaje, para que lo más flojo encabece.
+ *
+ * Es lo que la investigación de resultados en Mobbin recomienda: la pantalla
+ * debe poner delante dónde hay que actuar, no seguir el orden fijo del temario.
+ * No muta la entrada.
+ */
+export function ordenarPorPrioridad(
+  porArea: readonly ResultadoArea[],
+): readonly ResultadoArea[] {
+  return porArea.toSorted((a, b) => {
+    const dif = PRIORIDAD_NIVEL[a.nivel] - PRIORIDAD_NIVEL[b.nivel];
+    return dif !== 0 ? dif : a.porcentaje - b.porcentaje;
+  });
+}
+
+/** Cuenta las áreas que quedaron en nivel sólido. */
+export function areasSolidas(porArea: readonly ResultadoArea[]): number {
+  return porArea.filter((a) => a.nivel === 'solido').length;
+}

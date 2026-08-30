@@ -13,7 +13,8 @@
  */
 
 import type { Resultado } from './tipos';
-import { UMBRALES } from './puntuacion';
+import type { Nivel } from './tipos';
+import { UMBRALES, nivelDe } from './puntuacion';
 import { areaPorId } from './areas';
 
 export interface Interpretacion {
@@ -23,6 +24,8 @@ export interface Interpretacion {
   readonly cuerpo: string;
   /** Etiqueta del tramo, para acompañar la barra de rangos. */
   readonly tramo: string;
+  /** Nivel del puntaje global, para colorear la pastilla de nivel. */
+  readonly tramoNivel: Nivel;
 }
 
 /**
@@ -68,6 +71,7 @@ function nombreParaLista(areaId: string): string {
 export function interpretar(resultado: Resultado): Interpretacion {
   const { porcentaje, correctas, total, fortalezas, mejoras, sinResponder } = resultado;
   const tramo = tramoDe(porcentaje);
+  const tramoNivel = nivelDe(porcentaje);
 
   const nombresFuertes = listaLegible(fortalezas.slice(0, 3).map((a) => nombreParaLista(a.areaId)));
   const nombresFlojos = listaLegible(mejoras.slice(0, 2).map((a) => nombreParaLista(a.areaId)));
@@ -82,6 +86,7 @@ export function interpretar(resultado: Resultado): Interpretacion {
       titular: 'Vas bien encaminado en todas las áreas.',
       cuerpo: `Acertaste ${correctas} de ${total}. No hay un área que se te esté quedando atrás, así que de aquí en adelante lo que más rinde es precisión y manejo del tiempo, no aprender contenido nuevo.${notaSinResponder}`,
       tramo,
+      tramoNivel,
     };
   }
 
@@ -90,6 +95,7 @@ export function interpretar(resultado: Resultado): Interpretacion {
       titular: `Tienes base sólida en ${nombresFuertes}, y hueco en ${nombresFlojos}.`,
       cuerpo: `Acertaste ${correctas} de ${total}. Un resultado desigual es la situación más común y también la más fácil de corregir: se trabaja lo que falta sin volver a empezar lo que ya dominas.${notaSinResponder}`,
       tramo,
+      tramoNivel,
     };
   }
 
@@ -98,6 +104,7 @@ export function interpretar(resultado: Resultado): Interpretacion {
       titular: 'Estás a medio camino en casi todas las áreas.',
       cuerpo: `Acertaste ${correctas} de ${total}. No hay un solo tema que te esté frenando, sino varios a medias. Ordenarlos por prioridad es lo que hace que el estudio empiece a rendir.${notaSinResponder}`,
       tramo,
+      tramoNivel,
     };
   }
 
@@ -105,5 +112,6 @@ export function interpretar(resultado: Resultado): Interpretacion {
     titular: 'Hoy el examen te queda lejos, y eso es información útil.',
     cuerpo: `Acertaste ${correctas} de ${total}. Saberlo ahora, y no el día del examen, es exactamente para lo que sirve un diagnóstico: hay tiempo para reconstruir las bases y volver a medir.${notaSinResponder}`,
     tramo,
+    tramoNivel,
   };
 }

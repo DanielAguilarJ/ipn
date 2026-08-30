@@ -10,6 +10,7 @@
  */
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Boton } from '@/components/ui/Boton';
 import { RAMAS } from '@/datos/examenOficial';
@@ -33,7 +34,11 @@ export function ElegirRama({ totalPorRama, onEmpezar }: Props) {
       <p className="mt-4 text-[1.05rem] leading-relaxed text-tinta-media">
         En el examen del IPN eliges una rama y las dos carreras que solicites deben pertenecer a
         ella. Tu diagnóstico cambia según esa elección, porque el temario oficial de Física es
-        distinto en cada rama.
+        distinto en cada rama. Si dudas de cuál te toca, mira{' '}
+        <Link to="/examen-ipn" className="font-medium text-azul-texto hover:underline">
+          qué carreras entran en cada rama y qué materias evalúa
+        </Link>
+        .
       </p>
 
       <fieldset className="mt-9">
@@ -115,6 +120,22 @@ export function ElegirRama({ totalPorRama, onEmpezar }: Props) {
           <p className="mt-3 text-sm text-tinta-suave">Elige una rama para continuar.</p>
         )}
       </div>
+
+      {/*
+        Salida para quien no quiere responder 38 preguntas ahora.
+
+        Va aquí, antes de empezar, y no dentro del examen: interrumpir a alguien a
+        mitad del diagnóstico con un enlace comercial sería trabajar en su contra.
+        Además cierra un hueco de enlazado real: el diagnóstico recibía ocho enlaces
+        internos y no devolvía ninguno a la página del curso, que es la de conversión.
+      */}
+      <p className="mt-6 text-sm leading-relaxed text-tinta-media">
+        ¿Prefieres ver primero en qué consiste la preparación? Puedes revisar{' '}
+        <Link to="/curso-ipn" className="font-medium text-azul-texto hover:underline">
+          los tres programas y su duración
+        </Link>{' '}
+        y volver al diagnóstico cuando quieras.
+      </p>
 
       <p className="mt-10 border-t border-regla pt-5 text-xs leading-relaxed text-tinta-suave">
         {LEGAL.diagnostico}

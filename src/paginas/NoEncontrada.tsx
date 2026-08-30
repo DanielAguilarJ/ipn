@@ -15,6 +15,7 @@ export function NoEncontrada() {
         descripcion="La página que buscas no existe."
         ruta="/404"
         noIndexar
+        sinCanonical
       />
 
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
@@ -26,7 +27,7 @@ export function NoEncontrada() {
           Quizá el enlace cambió. Estas son las páginas que sí existen y probablemente buscabas.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <BotonRuta to="/diagnostico" medida="lg">
+          <BotonRuta to="/diagnostico-ipn" medida="lg">
             Hacer el diagnóstico
           </BotonRuta>
           <BotonRuta to="/" jerarquia="secundaria" medida="lg">

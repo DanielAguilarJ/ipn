@@ -21,14 +21,47 @@ import { FranjaIndependencia } from './AvisoIndependencia';
 interface Enlace {
   readonly a: string;
   readonly texto: string;
-  /** Si es falso, se oculta en pantallas estrechas. */
-  readonly enMovil: boolean;
 }
 
+/**
+ * Los tres enlaces se muestran en todas las anchuras.
+ *
+ * Antes «El curso» se ocultaba bajo el punto de corte `sm`, así que en un teléfono
+ * la única vía hacia la página que vende estaba en el pie. Google la descubría igual
+ * —el enlace seguía en el HTML—, pero un estudiante con el móvil tenía que buscarla,
+ * y el móvil es de donde vendrá la mayor parte del tráfico.
+ *
+ * La solución no fue quitar el ocultamiento y confiar: fue medir en un visor real de
+ * 360 px con emulación de móvil, comprobar que los nombres largos desbordaban la
+ * navegación por 19 px, y acortar las dos etiquetas hasta que cupieran. «Examen» y
+ * «Curso» siguen describiendo el destino, que es lo que necesitan Google y quien usa
+ * un lector de pantalla.
+ */
+/**
+ * Los tres enlaces se muestran en todas las anchuras, con UNA sola etiqueta cada uno.
+ *
+ * Antes «El curso» se ocultaba bajo el punto de corte `sm`, así que en un teléfono
+ * —de donde llega la mayoría— el enlace a la página que vende el curso no existía.
+ * El primer arreglo renderizaba dos textos, uno corto y uno largo, ocultando el que
+ * no tocaba con CSS. Funcionaba a la vista y dejaba un rastro: los dos textos viven
+ * en el HTML, así que cualquier lector que no aplique CSS veía el enlace como
+ * «CursoEl curso» y «ExamenEl examen». Doce enlaces del sitio anunciaban su destino
+ * con una palabra pegada.
+ *
+ * Un lector de pantalla no se veía afectado (`display: none` sale del árbol de
+ * accesibilidad) y Google renderiza CSS, pero los rastreadores que solo leen el HTML
+ * —incluidos los de los asistentes— sí. Se resuelve con una etiqueta única, que es
+ * además más simple: la medición del ciclo 17 ya demostró que las cortas caben (204 px
+ * pedidos y 204 disponibles), así que no hace falta la versión larga para nada.
+ *
+ * El texto descriptivo que de verdad describe cada destino vive en los enlaces dentro
+ * del contenido («qué carreras entran en cada rama y qué materias evalúa»), no en una
+ * barra de navegación que debe caber en un teléfono.
+ */
 const ENLACES: readonly Enlace[] = [
-  { a: '/diagnostico', texto: 'Diagnóstico', enMovil: true },
-  { a: '/examen-ipn', texto: 'El examen', enMovil: true },
-  { a: '/curso', texto: 'El curso', enMovil: false },
+  { a: '/diagnostico-ipn', texto: 'Diagnóstico' },
+  { a: '/examen-ipn', texto: 'Examen' },
+  { a: '/curso-ipn', texto: 'Curso' },
 ];
 
 const MENSAJE_ENCABEZADO =
@@ -51,12 +84,17 @@ export function Encabezado() {
           <nav aria-label="Navegación principal" className="ml-auto min-w-0">
             <ul className="flex items-center gap-0.5 sm:gap-2">
               {ENLACES.map((e) => (
-                <li key={e.a} className={e.enMovil ? '' : 'hidden sm:block'}>
+                <li key={e.a}>
                   <NavLink
                     to={e.a}
                     className={({ isActive }) =>
                       [
-                        'block rounded-md px-2 py-2 text-[0.8rem] font-medium whitespace-nowrap sm:px-2.5 sm:text-sm',
+                        // min-h-11 son 44 px: medido en móvil, estos enlaces daban 35
+                        // de alto. Pasan el mínimo de WCAG 2.2 AA (24 px) pero quedan
+                        // cortos para un dedo, y son los controles más usados del sitio.
+                        // Los enlaces dentro de párrafos NO se tocan: están exentos y
+                        // agrandarlos rompería el flujo del texto.
+                        'flex min-h-11 items-center rounded-md px-2 text-[0.8rem] font-medium whitespace-nowrap sm:px-2.5 sm:text-sm',
                         isActive
                           ? 'text-azul-texto underline decoration-2 underline-offset-4'
                           : 'text-tinta-media hover:text-tinta',
