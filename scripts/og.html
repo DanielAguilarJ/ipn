@@ -1,0 +1,141 @@
+<!doctype html>
+<!--
+  Plantilla de la imagen social (Open Graph), 1200x630.
+
+  No es una página del sitio: es el molde del que se genera `public/og.png`
+  ejecutando `npm run og`. Usa el mismo sistema visual «Cuaderno de examen» —papel
+  cálido, tinta densa, azul de WorldBrain— con las tipografías ya instaladas en el
+  proyecto, así que la vista previa de WhatsApp se ve como el sitio.
+
+  Regla del proyecto: aquí tampoco se afirma nada que no esté verificado. Los datos
+  del examen (140 preguntas, 3 horas) y el número de preguntas del diagnóstico (38
+  por rama, medido en ejecución) son los mismos que sirve la interfaz.
+-->
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/node_modules/@fontsource-variable/fraunces/wght.css" />
+    <link rel="stylesheet" href="/node_modules/@fontsource-variable/archivo/wght.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #f7f5f0;
+        color: #121418;
+        font-family: 'Archivo Variable', system-ui, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 64px 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      /* Filete azul lateral: la marca sin recurrir a degradados ni brillos. */
+      body::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 14px;
+        background: #0d5ef4;
+      }
+      .eyebrow {
+        font-size: 20px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #0b55e0;
+      }
+      h1 {
+        font-family: 'Fraunces Variable', Georgia, serif;
+        font-variation-settings: 'SOFT' 12, 'WONK' 1;
+        font-size: 74px;
+        line-height: 1.04;
+        letter-spacing: -0.02em;
+        font-weight: 600;
+        max-width: 21ch;
+        margin-top: 26px;
+      }
+      .sub {
+        font-size: 27px;
+        line-height: 1.45;
+        color: #3c4250;
+        max-width: 40ch;
+        margin-top: 26px;
+      }
+      .datos {
+        display: flex;
+        gap: 0;
+        border: 1px solid #cbc5b6;
+        background: #cbc5b6;
+        width: fit-content;
+        gap: 1px;
+      }
+      .dato {
+        background: #fffefb;
+        padding: 16px 30px;
+      }
+      .dato b {
+        font-family: 'Fraunces Variable', Georgia, serif;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        display: block;
+      }
+      .dato span {
+        font-size: 16px;
+        color: #5f6575;
+      }
+      .pie {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 32px;
+      }
+      .marca {
+        font-family: 'Fraunces Variable', Georgia, serif;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .marca em {
+        font-style: normal;
+        color: #0b55e0;
+      }
+      .legal {
+        font-size: 15px;
+        line-height: 1.4;
+        color: #5f6575;
+        text-align: right;
+        max-width: 34ch;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p class="eyebrow">admisionipn.com · WorldBrain México</p>
+      <h1>Mide tu nivel para el examen del IPN antes de estudiar</h1>
+      <p class="sub">
+        Diagnóstico gratuito de 38 preguntas por área. Sin registro y con resultado inmediato.
+      </p>
+    </div>
+
+    <div class="pie">
+      <div>
+        <div class="datos">
+          <div class="dato"><b>140</b><span>preguntas</span></div>
+          <div class="dato"><b>3 h</b><span>de examen</span></div>
+          <div class="dato"><b>8</b><span>áreas del temario</span></div>
+        </div>
+        <p class="marca" style="margin-top: 22px">Rumbo<em>IPN</em></p>
+      </div>
+      <p class="legal">Sitio independiente. No es un sitio oficial del IPN ni está afiliado a él.</p>
+    </div>
+  </body>
+</html>

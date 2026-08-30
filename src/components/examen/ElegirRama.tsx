@@ -121,6 +121,22 @@ export function ElegirRama({ totalPorRama, onEmpezar }: Props) {
         )}
       </div>
 
+      {/*
+        Salida para quien no quiere responder 38 preguntas ahora.
+
+        Va aquí, antes de empezar, y no dentro del examen: interrumpir a alguien a
+        mitad del diagnóstico con un enlace comercial sería trabajar en su contra.
+        Además cierra un hueco de enlazado real: el diagnóstico recibía ocho enlaces
+        internos y no devolvía ninguno a la página del curso, que es la de conversión.
+      */}
+      <p className="mt-6 text-sm leading-relaxed text-tinta-media">
+        ¿Prefieres ver primero en qué consiste la preparación? Puedes revisar{' '}
+        <Link to="/curso-ipn" className="font-medium text-azul-texto hover:underline">
+          los tres programas y su duración
+        </Link>{' '}
+        y volver al diagnóstico cuando quieras.
+      </p>
+
       <p className="mt-10 border-t border-regla pt-5 text-xs leading-relaxed text-tinta-suave">
         {LEGAL.diagnostico}
       </p>

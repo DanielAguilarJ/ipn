@@ -2,9 +2,9 @@
  * Preguntas frecuentes.
  *
  * Cumple dos funciones a la vez: resuelve las dudas que frenan una inscripción y
- * alimenta los datos estructurados FAQPage. El texto visible y el del schema son
- * el mismo, siempre: publicar en schema algo que no está en pantalla es
- * exactamente lo que Google penaliza.
+ * alimenta los datos estructurados FAQPage. El texto visible y el del schema sale
+ * siempre de la misma fuente; así el marcado representa fielmente el contenido que
+ * la persona puede consultar en la página.
  */
 
 import { PERIODO_CONVOCATORIA } from '@/datos/examenOficial';
@@ -68,7 +68,7 @@ export const PREGUNTAS_FRECUENTES: readonly Pregunta[] = [
   {
     pregunta: '¿Qué pasa si se me acaba el tiempo en el examen del IPN?',
     respuesta:
-      'Las preguntas que no alcances a responder cuentan como error, así que administrar el reloj es parte del examen y no un detalle. Son 140 preguntas en tres horas: poco más de un minuto por pregunta, sin tiempo para atorarse en una. Por eso el diagnóstico también te dice si tu problema es de contenido o de ritmo, y el programa de Afinación se dedica precisamente a resolver bajo presión de tiempo.',
+      'Las preguntas que no alcances a responder cuentan como error, así que administrar el reloj es parte del examen y no un detalle. Son 140 preguntas en tres horas: poco más de un minuto por pregunta, sin tiempo para atorarse en una. Por eso el diagnóstico también te dice si tu problema es de contenido o de ritmo, y el programa Intensivo se dedica precisamente a resolver con precisión y bajo presión de tiempo.',
   },
   {
     pregunta: '¿Qué necesito para presentar el examen en línea y qué pasa si algo falla?',

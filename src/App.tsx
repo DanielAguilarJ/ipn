@@ -7,17 +7,36 @@
  */
 
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Encabezado } from './components/layout/Encabezado';
 import { PieDePagina } from './components/layout/PieDePagina';
 import { Inicio } from './paginas/Inicio';
-import { Diagnostico } from './paginas/Diagnostico';
-import { Resultados } from './paginas/Resultados';
 import { ExamenIpn } from './paginas/ExamenIpn';
 import { Curso } from './paginas/Curso';
 import { Fuentes } from './paginas/Fuentes';
 import { AvisoLegal } from './paginas/AvisoLegal';
 import { NoEncontrada } from './paginas/NoEncontrada';
+
+/**
+ * El diagnóstico y sus resultados se cargan aparte.
+ *
+ * Son las dos únicas pantallas que necesitan el banco de preguntas, y ese banco
+ * pesa 52 kB de código fuente. Importándolas como el resto, todo el examen viajaba
+ * en el paquete inicial: quien entraba a leer «cómo es el examen» descargaba las 40
+ * preguntas con sus explicaciones sin abrir el diagnóstico nunca.
+ *
+ * No afecta a lo que reciben los buscadores. El prerenderizado usa
+ * `entrada-servidor.tsx`, que sigue importando las páginas de forma directa, así
+ * que el HTML de las siete rutas se genera igual. En el navegador, React conserva
+ * ese HTML mientras el módulo llega, de modo que no hay parpadeo ni salto de
+ * maquetación al hidratar.
+ */
+const Diagnostico = lazy(() =>
+  import('./paginas/Diagnostico').then((m) => ({ default: m.Diagnostico })),
+);
+const Resultados = lazy(() =>
+  import('./paginas/Resultados').then((m) => ({ default: m.Resultados })),
+);
 
 /** Rutas del sitio. Alimenta también el sitemap generado en la compilación. */
 export const RUTAS = [
@@ -58,16 +77,24 @@ export function App() {
       </a>
       <Encabezado />
       <main id="contenido" tabIndex={-1} className="min-h-[60vh] outline-none">
-        <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/diagnostico-ipn" element={<Diagnostico />} />
-          <Route path="/resultados" element={<Resultados />} />
-          <Route path="/examen-ipn" element={<ExamenIpn />} />
-          <Route path="/curso-ipn" element={<Curso />} />
-          <Route path="/fuentes" element={<Fuentes />} />
-          <Route path="/aviso-legal" element={<AvisoLegal />} />
-          <Route path="*" element={<NoEncontrada />} />
-        </Routes>
+        {/*
+          El respaldo va vacío a propósito: `main` ya reserva el 60 % del alto, así
+          que no aparece ni desaparece nada que mueva la página. Al hidratar una
+          ruta prerenderizada, React mantiene el HTML del servidor hasta que el
+          módulo llega, y este respaldo no se llega a ver.
+        */}
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Inicio />} />
+            <Route path="/diagnostico-ipn" element={<Diagnostico />} />
+            <Route path="/resultados" element={<Resultados />} />
+            <Route path="/examen-ipn" element={<ExamenIpn />} />
+            <Route path="/curso-ipn" element={<Curso />} />
+            <Route path="/fuentes" element={<Fuentes />} />
+            <Route path="/aviso-legal" element={<AvisoLegal />} />
+            <Route path="*" element={<NoEncontrada />} />
+          </Routes>
+        </Suspense>
       </main>
       <PieDePagina />
     </BrowserRouter>

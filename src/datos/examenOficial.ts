@@ -213,6 +213,26 @@ export const CALENDARIO: readonly Etapa[] = [
 /** Periodo al que corresponde el calendario anterior. */
 export const PERIODO_CONVOCATORIA = 'ingreso febrero–julio de 2027';
 
+/**
+ * Cuándo se revisó por última vez lo que este sitio afirma del examen.
+ *
+ * Se calcula de las propias fuentes en lugar de escribirse a mano: es la más
+ * reciente de sus fechas de consulta. Sirve para declarar `dateModified` en los
+ * datos estructurados de la página informativa, que es una señal de frescura que
+ * Google usa en contenido de este tipo.
+ *
+ * La ventaja de derivarla es que no puede quedarse desactualizada por descuido: en
+ * cuanto alguien vuelva a consultar una fuente y actualice su fecha, esta se mueve
+ * sola. Y al contrario, recompilar sin revisar nada no la mueve, así que no finge
+ * una actualización que no ocurrió.
+ */
+export function ultimaRevision(): string {
+  return Object.values(FUENTES)
+    .map((f) => f.consultada)
+    .toSorted()
+    .at(-1) as string;
+}
+
 /** Nota sobre nivel medio superior, para no desinformar a quien busca vocacional. */
 export const NOTA_BACHILLERATO = {
   texto:

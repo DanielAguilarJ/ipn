@@ -1,0 +1,578 @@
+{
+ "_nota": "Consultas de docs/seo-intencion-busqueda.md cubiertas por el texto servido. Generado; no editar a mano. prominente=aparece en titulo, descripcion o encabezado de alguna pagina, que pesa mucho mas que el cuerpo. La auditoria falla si una consulta se pierde O si una prominente cae al cuerpo.",
+ "_medido": "2026-08-30",
+ "total": 59,
+ "prominentes": 51,
+ "consultas": {
+  "temario ipn 2026": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn 2026 nivel superior": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn 2026 area 2": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn medicina": {
+   "paginas": [
+    "/",
+    "/diagnostico-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "temario ipn 2026 area 1": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn area 1": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn area 2": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn ciencias medico biologicas 2026": {
+   "paginas": [
+    "/",
+    "/diagnostico-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "temario ipn area 3": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn area 3 2026": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario ipn admision": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "temario algebra ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "temario arquitectura ipn": {
+   "paginas": [
+    "/",
+    "/diagnostico-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "temario administracion ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn 2026 segunda vuelta": {
+   "paginas": [
+    "/",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "examen ipn segunda vuelta": {
+   "paginas": [
+    "/",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "examen ipn 2026 universidad": {
+   "paginas": [
+    "/examen-ipn"
+   ],
+   "prominente": false
+  },
+  "examen ipn superior 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn cuando es": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "examen ipn area 1": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn area 2": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn area 3": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn admision": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen ipn areas": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen admision ipn 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen admision ipn segunda vuelta": {
+   "paginas": [
+    "/",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "examen algebra ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": false
+  },
+  "curso ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "curso ipn para nivel superior 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "curso ipn segunda vuelta": {
+   "paginas": [
+    "/",
+    "/examen-ipn"
+   ],
+   "prominente": false
+  },
+  "curso ipn superior": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "curso admision ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "curso de admisión ipn 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "curso para entrar al ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/examen-ipn"
+   ],
+   "prominente": false
+  },
+  "curso de ingreso al ipn 2026": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": false
+  },
+  "admision ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "admision ipn 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "admision ipn segunda vuelta 2026": {
+   "paginas": [
+    "/",
+    "/examen-ipn"
+   ],
+   "prominente": true
+  },
+  "admision ipn 2da vuelta": {
+   "paginas": [
+    "/examen-ipn"
+   ],
+   "prominente": false
+  },
+  "admision ipn superior": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "admision ipn agosto 2026": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": false
+  },
+  "admision al ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene examen ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn área 2": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn superior": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn área 1": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn universidad": {
+   "paginas": [
+    "/examen-ipn"
+   ],
+   "prominente": false
+  },
+  "cuantas preguntas tiene el examen del ipn área 3": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn 2026": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn area 1": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn area 2": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "cuantas preguntas tiene el examen del ipn area 3": {
+   "paginas": [
+    "/",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "diagnostico ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen diagnostico ipn": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  },
+  "examen diagnostico ipn 2026": {
+   "paginas": [
+    "/",
+    "/aviso-legal",
+    "/curso-ipn",
+    "/diagnostico-ipn",
+    "/examen-ipn",
+    "/fuentes"
+   ],
+   "prominente": true
+  }
+ }
+}

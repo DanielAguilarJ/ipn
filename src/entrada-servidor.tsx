@@ -19,13 +19,24 @@ import { Curso } from './paginas/Curso';
 import { Fuentes } from './paginas/Fuentes';
 import { AvisoLegal } from './paginas/AvisoLegal';
 import { NoEncontrada } from './paginas/NoEncontrada';
+import { Resultados } from './paginas/Resultados';
 
-/** Qué componente corresponde a cada ruta prerenderizada. */
+/**
+ * Qué componente corresponde a cada ruta prerenderizada.
+ *
+ * `/resultados` está aquí aunque NO deba indexarse. La razón es que ahora el
+ * servidor entrega `404.html` para lo que no existe como archivo, así que sin su
+ * propio archivo alguien que recargara su pantalla de resultados vería un «esta
+ * página no existe». Su contenido depende de respuestas guardadas en el navegador,
+ * de modo que el HTML generado es el estado vacío honesto y la propia página
+ * declara `noindex`; el sitemap la excluye por eso mismo, leyendo esa etiqueta.
+ */
 const PAGINAS: Readonly<Record<string, () => React.ReactElement>> = {
   '/': Inicio,
   '/diagnostico-ipn': Diagnostico,
   '/examen-ipn': ExamenIpn,
   '/curso-ipn': Curso,
+  '/resultados': Resultados,
   '/fuentes': Fuentes,
   '/aviso-legal': AvisoLegal,
 };

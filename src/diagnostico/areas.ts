@@ -87,7 +87,7 @@ export const AREAS: readonly Area[] = [
       'Globalización y organizaciones sociales',
     ],
     comoMejorar:
-      'Funciona mejor con líneas de tiempo y causas que memorizando fechas suetas: entender por qué ocurrió cada cambio deja el dato pegado.',
+      'Funciona mejor con líneas de tiempo y causas que memorizando fechas sueltas: entender por qué ocurrió cada cambio deja el dato pegado.',
   },
   {
     id: 'fisica',

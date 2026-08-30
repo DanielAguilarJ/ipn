@@ -7,6 +7,7 @@
  */
 
 import { Link } from 'react-router-dom';
+import { EnlaceExterno } from '@/components/ui/EnlaceExterno';
 import { ExternalLink } from 'lucide-react';
 import { Marca } from '@/components/ui/Marca';
 import { BRAND, LINKS, WHATSAPP, whatsappUrl } from '@/config/site';
@@ -61,16 +62,13 @@ export function PieDePagina() {
             <ul className="mt-3 space-y-2">
               {FUENTES.map((f) => (
                 <li key={f.href}>
-                  <a
+                  <EnlaceExterno
                     href={f.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-sm text-tinta-media hover:text-azul-texto"
                   >
                     {f.texto}
                     <ExternalLink aria-hidden="true" className="size-3" />
-                    <span className="solo-lectores">(se abre en una pestaña nueva)</span>
-                  </a>
+                  </EnlaceExterno>
                 </li>
               ))}
             </ul>
@@ -80,25 +78,21 @@ export function PieDePagina() {
             <h2 className="eyebrow text-tinta-suave">Contacto</h2>
             <p className="mt-3 text-sm text-tinta-media">
               WhatsApp{' '}
-              <a
+              <EnlaceExterno
                 href={whatsappUrl('Hola, quiero informes del curso de admisión al IPN.')}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="font-semibold text-azul-texto hover:underline"
               >
                 {WHATSAPP.numeroVisible}
-              </a>
+              </EnlaceExterno>
             </p>
             <p className="mt-3 text-sm text-tinta-media">
-              <a
+              <EnlaceExterno
                 href={LINKS.worldbrain.value}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 hover:text-azul-texto"
               >
                 Sitio de {BRAND.org}
                 <ExternalLink aria-hidden="true" className="size-3" />
-              </a>
+              </EnlaceExterno>
             </p>
           </div>
         </div>

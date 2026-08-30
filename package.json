@@ -10,6 +10,12 @@
     "build:servidor": "vite build --ssr src/entrada-servidor.tsx --outDir dist/servidor",
     "preview": "vite preview",
     "seo": "node scripts/auditar-seo.mjs",
+    "enlaces": "python3 scripts/auditar-enlaces.py",
+    "fuentes": "python3 scripts/medir-subconjunto-fuentes.py",
+    "movil": "node scripts/revisar-movil.mjs",
+    "flujo": "node scripts/recorrer-diagnostico.mjs",
+    "verificar": "npm test && npm run build && npm run seo && npm run enlaces && npm run fuentes && npm run movil && npm run flujo",
+    "og": "node scripts/generar-og.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },

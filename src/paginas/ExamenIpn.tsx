@@ -9,11 +9,12 @@
  */
 
 import { Link } from 'react-router-dom';
+import { EnlaceExterno } from '@/components/ui/EnlaceExterno';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { BotonRuta } from '@/components/ui/Boton';
 import { Meta } from '@/lib/Meta';
+import { grafo, identidadDeArticulo, nodoMigas, nodoPagina } from '@/lib/esquemas';
 import { AREAS } from '@/diagnostico/areas';
-import { SITE } from '@/config/site';
 import {
   CALENDARIO,
   FUENTES,
@@ -23,6 +24,7 @@ import {
   PERIODO_CONVOCATORIA,
   PERIODOS_DE_INGRESO,
   RAMAS,
+  ultimaRevision,
 } from '@/datos/examenOficial';
 
 /**
@@ -35,7 +37,16 @@ import {
  * modo que el título coincide con la búsqueda sin dejar de ser exacto.
  */
 const TITULO = 'Temario del examen de admisión al IPN 2026 por área y rama';
-/** 152 caracteres: por debajo del corte de Google, que ronda los 155. */
+
+/**
+ * Fecha en que se publicó esta página.
+ *
+ * Es la del primer commit que la creó, comprobada en el historial del repositorio
+ * (`git log --reverse -- src/paginas/ExamenIpn.tsx`). Se escribe como constante
+ * porque el navegador no tiene acceso al historial, y con la fuente anotada para
+ * que cualquiera pueda verificarla en lugar de creerla.
+ */
+const PUBLICADA = '2026-08-25';/** 152 caracteres: por debajo del corte de Google, que ronda los 155. */
 const DESCRIPCION =
   'Temario oficial del examen del IPN por área y rama, con las 140 preguntas, las 3 horas y el calendario. Cada dato con su fuente y fecha de consulta.';
 
@@ -47,37 +58,43 @@ const DESCRIPCION =
  * cruda, lo que mejora el aspecto del enlace.
  */
 function esquemaPagina(): object {
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Article',
-        headline: TITULO,
-        description: DESCRIPCION,
-        inLanguage: 'es-MX',
-        about: { '@type': 'Thing', name: 'Examen de admisión al Instituto Politécnico Nacional' },
-        articleSection: AREAS.map((a) => a.nombre),
-        isBasedOn: Object.values(FUENTES).map((f) => f.url),
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Inicio',
-            item: `${SITE.origin.value}/`,
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Temario y estructura del examen',
-            item: `${SITE.origin.value}/examen-ipn`,
-          },
-        ],
-      },
-    ],
-  };
+  return grafo(
+    nodoPagina({
+      nombre: TITULO,
+      descripcion: DESCRIPCION,
+      ruta: '/examen-ipn',
+    }),
+    {
+      '@type': 'Article',
+      headline: TITULO,
+      description: DESCRIPCION,
+      inLanguage: 'es-MX',
+      /**
+       * Autor, editor, imagen y pertenencia al sitio.
+       *
+       * Antes esta página no referenciaba la organización por ningún lado, así que
+       * el artículo que más tráfico puede captar quedaba como texto anónimo, sin
+       * atar a la entidad que la portada sí describe. Los cuatro campos salen del
+       * constructor compartido para que no divergan.
+       */
+      ...identidadDeArticulo(),
+      /**
+       * Las dos fechas salen de datos verificables, no de la compilación.
+       *
+       * `datePublished` es la del commit que publicó esta página, y
+       * `dateModified` la de la última consulta a las fuentes oficiales, que se
+       * calcula sola desde `FUENTES`. Usar la fecha del build sería fingir una
+       * actualización cada vez que se recompila, y Google deja de fiarse de ese
+       * tipo de señal cuando no se corresponde con cambios reales.
+       */
+      datePublished: PUBLICADA,
+      dateModified: ultimaRevision(),
+      about: { '@type': 'Thing', name: 'Examen de admisión al Instituto Politécnico Nacional' },
+      articleSection: AREAS.map((a) => a.nombre),
+      isBasedOn: Object.values(FUENTES).map((f) => f.url),
+    },
+    nodoMigas('Temario y estructura del examen', '/examen-ipn'),
+  );
 }
 
 export function ExamenIpn() {
@@ -87,6 +104,7 @@ export function ExamenIpn() {
         titulo={TITULO}
         descripcion={DESCRIPCION}
         ruta="/examen-ipn"
+        articulo={{ publicada: PUBLICADA, modificada: ultimaRevision() }}
         datosEstructurados={esquemaPagina()}
       />
 
@@ -195,15 +213,13 @@ export function ExamenIpn() {
           el documento que suele buscarse como «guía de estudio del IPN en PDF». No lo alojamos aquí:
           lo consultas directamente en la fuente, y esta página te lo ofrece organizado por área para
           leerlo sin descargar nada.{' '}
-          <a
+          <EnlaceExterno
             href={FUENTES.temario.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-1 font-medium text-azul-texto hover:underline"
           >
             Abrir el temario oficial del IPN
             <ExternalLink aria-hidden="true" className="size-3" />
-          </a>
+          </EnlaceExterno>
           . Consultado el 25 de agosto de 2026.
         </p>
 
@@ -215,7 +231,7 @@ export function ExamenIpn() {
           que esta página tiene sobre las que estiman una cifra.
         */}
         <h2 className="mt-12 text-2xl sm:text-3xl">
-          ¿Cuántas preguntas tiene el examen del IPN por materia?
+          ¿Cuántas preguntas tiene el examen del IPN de nivel superior por materia?
         </h2>
         <p className="mt-4 leading-relaxed text-tinta-media">
           El IPN no lo publica, y conviene decirlo con claridad. La convocatoria confirma las 140
@@ -235,7 +251,8 @@ export function ExamenIpn() {
         </p>
 
         <h2 className="mt-12 text-2xl sm:text-3xl">
-          ¿Qué rama me toca según la carrera que quiero?
+          ¿Qué rama me toca según la carrera que quiero? Medicina, arquitectura, administración y
+          las demás
         </h2>
         <p className="mt-4 leading-relaxed text-tinta-media">
           Es la duda práctica que decide qué estudiar, porque el temario de Física cambia con la
@@ -296,7 +313,9 @@ export function ExamenIpn() {
           te da ese orden en unos minutos, sin registro.
         </p>
 
-        <h2 className="mt-12 text-2xl sm:text-3xl">El calendario del proceso</h2>
+        <h2 className="mt-12 text-2xl sm:text-3xl">
+          ¿Cuándo es el examen del IPN? El calendario del proceso
+        </h2>
         <p className="mt-4 leading-relaxed text-tinta-media">
           Estas son las etapas del {PERIODO_CONVOCATORIA}. Varias fechas no se publican de forma
           general porque llegan de manera individual en los documentos de cada aspirante.
@@ -318,14 +337,12 @@ export function ExamenIpn() {
         </ul>
         <p className="mt-4 text-xs leading-relaxed text-tinta-suave">
           Las fechas cambian en cada convocatoria. Verifícalas siempre en{' '}
-          <a
+          <EnlaceExterno
             href={FUENTES.convocatoria2027.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-azul-texto hover:underline"
           >
             la convocatoria oficial
-          </a>
+          </EnlaceExterno>
           , consultada el 25 de agosto de 2026.
         </p>
 
@@ -382,8 +399,8 @@ export function ExamenIpn() {
           ¿Existe una «segunda vuelta» del examen del IPN?
         </h2>
         <p className="mt-4 leading-relaxed text-tinta-media">
-          Con ese nombre, no. La convocatoria no usa el término «segunda vuelta», y por eso conviene
-          entender lo que sí existe: el IPN abre{' '}
+          Con ese nombre, no. La convocatoria no usa el término «segunda vuelta» ni «2da vuelta»,
+          y por eso conviene entender lo que sí existe: el IPN abre{' '}
           <strong>{PERIODOS_DE_INGRESO.cuantos} periodos de ingreso</strong> —
           {PERIODOS_DE_INGRESO.lista.join(', ')}— y cada uno tiene su propia convocatoria, con sus
           propias fechas de registro y de examen.
@@ -396,14 +413,12 @@ export function ExamenIpn() {
         </p>
         <p className="mt-4 text-sm leading-relaxed text-tinta-suave">
           Fuente:{' '}
-          <a
+          <EnlaceExterno
             href={FUENTES.noEscolarizada.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-azul-texto hover:underline"
           >
             convocatoria del IPN
-          </a>
+          </EnlaceExterno>
           , consultada el 25 de agosto de 2026. Las fechas y el número de periodos pueden cambiar:
           confírmalo en la convocatoria vigente antes de planear.
         </p>
@@ -451,14 +466,12 @@ export function ExamenIpn() {
         </p>
         <p className="mt-3 text-sm leading-relaxed text-tinta-suave">
           Fuente:{' '}
-          <a
+          <EnlaceExterno
             href={FUENTES.noEscolarizada.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-azul-texto hover:underline"
           >
             convocatoria de nivel superior, modalidad no escolarizada
-          </a>
+          </EnlaceExterno>
           , consultada el 25 de agosto de 2026.
         </p>
 

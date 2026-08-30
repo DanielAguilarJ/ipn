@@ -15,6 +15,7 @@ export function NoEncontrada() {
         descripcion="La página que buscas no existe."
         ruta="/404"
         noIndexar
+        sinCanonical
       />
 
       <div className="mx-auto max-w-xl px-4 py-24 text-center">

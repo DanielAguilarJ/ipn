@@ -15,6 +15,8 @@ import { ElegirRama } from '@/components/examen/ElegirRama';
 import { IndicePreguntas } from '@/components/examen/IndicePreguntas';
 import { TarjetaPregunta } from '@/components/examen/TarjetaPregunta';
 import { Meta } from '@/lib/Meta';
+import { PREGUNTAS_POR_PERSONA } from '@/diagnostico/conteo';
+import { grafo, nodoMigas, nodoPagina } from '@/lib/esquemas';
 import { AREAS, areaPorId } from '@/diagnostico/areas';
 import { BANCO } from '@/diagnostico/banco';
 import { preguntasDeRama } from '@/diagnostico/puntuacion';
@@ -38,8 +40,17 @@ export function Diagnostico() {
     <>
       <Meta
         titulo="Examen diagnóstico IPN 2026 gratis: mide tu nivel por área"
-        descripcion="Examen diagnóstico gratuito del IPN: 38 preguntas por área del temario, sin registro y con resultado inmediato. Diagnóstico independiente, no oficial."
+        descripcion={`Examen diagnóstico gratuito del IPN: ${PREGUNTAS_POR_PERSONA.cifra} preguntas por área del temario, sin registro y con resultado inmediato. Diagnóstico independiente, no oficial.`}
         ruta="/diagnostico-ipn"
+        datosEstructurados={grafo(
+          nodoPagina({
+            nombre: 'Examen diagnóstico gratuito para el IPN',
+            descripcion:
+              'Diagnóstico de práctica por área del temario público del IPN. No contiene reactivos del examen real, no pide registro y su resultado no predice la admisión.',
+            ruta: '/diagnostico-ipn',
+          }),
+          nodoMigas('Diagnóstico gratuito', '/diagnostico-ipn'),
+        )}
       />
       {rama === null ? (
         <ElegirRama
@@ -135,8 +146,7 @@ function Examen({ rama, respuestasIniciales, indiceInicial }: ExamenProps) {
           className="shrink-0"
         >
           <ArrowLeft aria-hidden="true" className="size-4" />
-          <span className="hidden sm:inline">Anterior</span>
-          <span className="sm:hidden">Atrás</span>
+          Atrás
         </Boton>
 
         {examen.esUltima ? (

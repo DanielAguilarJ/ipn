@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PREGUNTAS_FRECUENTES, esquemaFaq } from '@/components/inicio/Faq';
 import { HECHOS_EXAMEN, NO_PUBLICADO, RAMAS, FUENTES } from '@/datos/examenOficial';
+import { INCLUYE, METODO, PREGUNTAS_CURSO, PROGRAMAS } from '@/contenido/curso';
 import { LEGAL } from '@/config/site';
 
 /**
@@ -16,6 +17,10 @@ import { LEGAL } from '@/config/site';
 function textoPublico(): string {
   return [
     ...PREGUNTAS_FRECUENTES.flatMap((p) => [p.pregunta, p.respuesta]),
+    ...PREGUNTAS_CURSO.flatMap((p) => [p.pregunta, p.respuesta]),
+    ...PROGRAMAS.flatMap((p) => [p.idea, p.paraQuien, ...p.incluye]),
+    ...METODO.flatMap((p) => [p.titulo, p.texto]),
+    ...INCLUYE,
     ...HECHOS_EXAMEN.flatMap((h) => [h.dato, h.detalle]),
     ...NO_PUBLICADO,
     ...RAMAS.flatMap((r) => [r.nombre, r.ejemplos]),

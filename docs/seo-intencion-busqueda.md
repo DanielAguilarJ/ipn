@@ -280,3 +280,25 @@ Para decidir si admisionipn.com puede responder honestamente, solo se considera 
 - **Fecha de consulta:** 25 de agosto de 2026.
 - **Alcance:** observación puntual del autocompletado para español y México. Las sugerencias pueden cambiar con el tiempo; no se usaron estimaciones de volumen, herramientas de pago, imágenes ni resultados personalizados de una sesión iniciada.
 - **Fallback:** no fue necesario; el endpoint principal respondió a los 16 intentos.
+
+## Cobertura medida y las consultas que quedan fuera
+
+Medido el 30 de agosto de 2026 sobre el texto servido, con `npm run seo`. De las 64
+consultas abordables, **59 tienen todas sus palabras en alguna pagina**. El registro
+vive en `cobertura-consultas.json` y la auditoria nombra cualquiera que se pierda.
+
+Las cinco restantes no son descuidos:
+
+- `temario ipn area 2 2025`, `examen admision ipn 2025`, `curso de admision ipn 2025`
+  y `cuantas preguntas tiene el examen ipn 2025` llevan un ano que ya paso. Esta tabla
+  ya indicaba dirigir a la convocatoria vigente y **no presentar material antiguo como
+  actual**, asi que el sitio no escribe 2025. Es una decision, no una carencia.
+- `temario anatomia ipn` no se cubre porque **no esta confirmado**. El temario por rama
+  se publica en PDF y la pagina consultada solo devuelve su navegacion, asi que no hay
+  forma de comprobar si Anatomia figura como asignatura. La regla del proyecto es que un
+  dato sin fuente no se afirma en la interfaz, y aqui se aplica igual que en el resto.
+
+Un caso que si se resolvio: `admision ipn 2da vuelta`. El contenido ya explicaba con
+fuente que la convocatoria no usa ese termino y que existen varios periodos de ingreso,
+pero escribia solo «segunda vuelta». Se anadio la variante «2da vuelta» que la gente
+teclea de verdad, sin afirmar nada nuevo.

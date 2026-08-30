@@ -6,7 +6,9 @@
  */
 
 import { ExternalLink } from 'lucide-react';
+import { EnlaceExterno } from '@/components/ui/EnlaceExterno';
 import { Meta } from '@/lib/Meta';
+import { grafo, nodoMigas, nodoPagina } from '@/lib/esquemas';
 import { FUENTES, NO_PUBLICADO } from '@/datos/examenOficial';
 
 const FECHA_LEGIBLE = '25 de agosto de 2026';
@@ -18,6 +20,28 @@ export function Fuentes() {
         titulo="Fuentes y fechas de consulta | Admisión IPN"
         descripcion="Todas las fuentes oficiales del IPN usadas en este sitio, con su URL y la fecha en que se consultaron."
         ruta="/fuentes"
+        datosEstructurados={grafo(
+          {
+            ...nodoPagina({
+              nombre: 'Fuentes y fechas de consulta',
+              descripcion:
+                'Cada dato que este sitio afirma sobre el examen del IPN, con la fuente oficial de la que proviene y la fecha en que se consultó.',
+              ruta: '/fuentes',
+            }),
+            /**
+             * Las citas se declaran una por una en lugar de solo enlazarlas: esta
+             * página existe para que cualquiera verifique los datos, y el schema
+             * debe decir lo mismo que la pantalla.
+             */
+            citation: Object.values(FUENTES).map((f) => ({
+              '@type': 'CreativeWork',
+              name: f.titulo,
+              url: f.url,
+              accessedDate: f.consultada,
+            })),
+          },
+          nodoMigas('Fuentes y fechas de consulta', '/fuentes'),
+        )}
       />
 
       <div className="mx-auto max-w-3xl px-4 py-14">
@@ -32,15 +56,20 @@ export function Fuentes() {
         <ul className="mt-9 flex flex-col gap-px border-y border-regla">
           {Object.values(FUENTES).map((f) => (
             <li key={f.id} className="bg-papel-alto px-5 py-4">
-              <a
+              <EnlaceExterno
                 href={f.url}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-start gap-1.5 font-sans text-[0.97rem] font-semibold text-azul-texto hover:underline"
               >
                 {f.titulo}
                 <ExternalLink aria-hidden="true" className="mt-1 size-3.5 shrink-0" />
-              </a>
+                {/*
+                  Mismo patrón que el pie: el icono es decorativo y el aviso va en un
+                  texto que solo leen los lectores de pantalla. Aquí faltaba, así que
+                  quien navega sin ver el icono no sabía que el enlace abre otra
+                  pestaña. Es la página que existe para que cualquiera VERIFIQUE los
+                  datos, de modo que sus enlaces son justo los que más se van a seguir.
+                */}
+              </EnlaceExterno>
               <p className="mt-1.5 font-mono text-xs break-all text-tinta-suave">{f.url}</p>
               <p className="mt-1 text-xs text-tinta-media">Consultada el {FECHA_LEGIBLE}.</p>
             </li>
